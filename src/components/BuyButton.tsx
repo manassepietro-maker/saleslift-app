@@ -23,7 +23,7 @@ export function BuyButton() {
       disabled={loading}
       className="rounded-lg bg-accent px-8 py-4 text-base font-bold text-accent-fg disabled:opacity-60"
     >
-      {loading ? "Redirecting to checkout..." : "Get the system — €47/yr"}
+      {loading ? "Redirecting to checkout..." : "Get the system — €37/mo"}
     </button>
   );
 }

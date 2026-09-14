@@ -39,7 +39,7 @@ export default async function DashboardPage() {
           <div className="mb-10 rounded-xl border border-accent-dim bg-accent/10 p-6">
             <p className="mb-3 text-sm text-fg">
               You can read the Welcome and Intro for free. Unlocking the five modules
-              needs the course — €47/yr.
+              needs the course — €37/mo.
             </p>
             <Link
               href="/pricing"

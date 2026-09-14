@@ -2,10 +2,10 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { stripe } from "@/lib/stripe";
 
-// Creates a Stripe Checkout Session for the €47/yr course subscription and
+// Creates a Stripe Checkout Session for the €37/mo course subscription and
 // sends the logged-in user there. STRIPE_PRICE_ID is the recurring price you
 // create in the Stripe Dashboard (Products > Add product > Recurring,
-// yearly, €47) — see README.md for the exact steps.
+// monthly, €37) — see README.md for the exact steps.
 export async function POST() {
   const supabase = createClient();
   const {

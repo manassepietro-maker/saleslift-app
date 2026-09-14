@@ -27,9 +27,9 @@ export default async function PricingPage() {
           Full access to all five modules, the templates, and every future update.
         </p>
         <div className="rounded-2xl border border-line-strong bg-bg-alt p-10">
-          <div className="mb-6 font-display text-5xl font-bold text-fg">€47<span className="text-xl font-medium text-fg-faint"> / year</span></div>
+          <div className="mb-6 font-display text-5xl font-bold text-fg">€37<span className="text-xl font-medium text-fg-faint"> / month</span></div>
           <ul className="mb-8 flex flex-col gap-2 text-left text-fg-dim">
-            <li>— Yearly course access</li>
+            <li>— Full course access, cancel anytime</li>
             <li>— Bonus: CV and Cover Letter Bot agents</li>
           </ul>
           {purchase?.has_access ? (
