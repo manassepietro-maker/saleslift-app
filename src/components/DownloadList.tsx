@@ -3,9 +3,9 @@ import type { Template } from "@/lib/content/modules";
 export function DownloadList({ templates }: { templates: Template[] }) {
   if (templates.length === 0) return null;
   return (
-    <div className="flex flex-col gap-3 rounded-xl border border-line bg-bg-alt p-6">
-      <span className="text-xs font-semibold uppercase tracking-wider text-accent">
-        Templates for this module
+    <div className="flex flex-col gap-4 rounded-2xl border border-c-line bg-c-card p-7 font-inter">
+      <span className="text-[17px] font-semibold text-c-text">
+        Templates for this lesson
       </span>
       <div className="flex flex-col gap-2">
         {templates.map((t) => (
@@ -13,7 +13,7 @@ export function DownloadList({ templates }: { templates: Template[] }) {
             key={t.file}
             href={`/templates/${t.file}`}
             download
-            className="flex items-center gap-3 text-sm text-fg hover:text-accent"
+            className="flex items-center gap-3 text-[17px] text-c-body hover:text-c-blue"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M12 3v12" />

@@ -1,115 +1,73 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
-import { Nav } from "@/components/Nav";
-import { ProgressBar } from "@/components/ProgressBar";
-import { MODULES, TOTAL_LESSONS } from "@/lib/content/modules";
+import { getCourseState } from "@/lib/course-state";
+import { ALL_LESSONS, TOTAL_LESSONS } from "@/lib/content/course";
+import { CourseOutline } from "@/components/course/CourseOutline";
+import { CourseMenu } from "@/components/course/CourseMenu";
 
 export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
+  const { hasAccess, completed } = await getCourseState();
 
-  const [{ data: purchase }, { data: progress }] = await Promise.all([
-    supabase.from("purchases").select("has_access").eq("user_id", user.id).single(),
-    supabase.from("lesson_progress").select("lesson_slug").eq("user_id", user.id),
-  ]);
+  const done = new Set(completed);
+  const doneCount = ALL_LESSONS.filter((l) => done.has(l.slug)).length;
+  const pct = Math.round((doneCount / TOTAL_LESSONS) * 100);
 
-  const hasAccess = purchase?.has_access ?? false;
-  const completedSlugs = new Set((progress ?? []).map((p) => p.lesson_slug));
+  // "Continue" jumps to the first unfinished lesson the student can open.
+  const next =
+    ALL_LESSONS.find((l) => !done.has(l.slug) && (l.free || hasAccess)) ?? ALL_LESSONS[0];
 
   return (
-    <main className="min-h-screen bg-bg">
-      <Nav />
-      <div className="mx-auto max-w-3xl px-6 py-14">
-        <h1 className="mb-2 font-display text-3xl font-bold text-fg">Your course</h1>
-        <p className="mb-8 text-fg-dim">
-          Five stages, one pipeline. Work through them in order.
-        </p>
-
-        <div className="mb-10">
-          <ProgressBar completed={completedSlugs.size} total={TOTAL_LESSONS} />
-        </div>
-
-        {!hasAccess && (
-          <div className="mb-10 rounded-xl border border-accent-dim bg-accent/10 p-6">
-            <p className="mb-3 text-sm text-fg">
-              You can read the Welcome and Intro for free. Unlocking the five modules
-              needs the course — €37/mo.
-            </p>
+    <main className="min-h-screen bg-c-bg font-inter text-c-text">
+      <div className="mx-auto max-w-[1760px] px-4 pb-24 sm:px-8">
+        <header className="flex items-center justify-between gap-4 rounded-b-[28px] border border-t-0 border-c-line px-5 py-6 sm:px-12 sm:py-9">
+          <h1 className="text-[26px] font-extrabold tracking-tight sm:text-[44px]">SalesLift</h1>
+          <div className="flex items-center gap-3 sm:gap-4">
             <Link
-              href="/pricing"
-              className="inline-block rounded-lg bg-accent px-5 py-2.5 text-sm font-bold text-accent-fg"
+              href={next.href}
+              className="flex h-12 items-center rounded-xl bg-c-blue px-5 text-[17px] sm:h-[52px] font-medium text-[#0b1730] hover:brightness-110 sm:px-7 sm:text-[22px]"
             >
-              Get the system
+              Continue
             </Link>
+            <CourseMenu hasAccess={hasAccess} />
           </div>
-        )}
+        </header>
 
-        <div className="flex flex-col gap-3">
-          <LessonRow href="/welcome" title="Welcome" minutes={3} locked={false} done={completedSlugs.has("welcome")} />
-          <LessonRow href="/intro" title="Intro — why this exists" minutes={6} locked={false} done={completedSlugs.has("intro")} />
-          {MODULES.map((m) => (
-            <LessonRow
-              key={m.slug}
-              href={`/modules/${m.slug}`}
-              title={`${m.number}. ${m.title}`}
-              minutes={m.estimatedMinutes}
-              locked={!hasAccess}
-              done={completedSlugs.has(m.slug)}
-            />
-          ))}
+        <div className="mx-auto max-w-[1600px] sm:px-14">
+          <section className="mt-8">
+            <h2 className="mb-9 text-[30px] font-bold tracking-tight sm:text-[34px]">Progress</h2>
+            <div className="rounded-3xl border border-c-line bg-c-card px-6 py-9 sm:px-12 sm:py-12">
+              <div className="mb-5 flex items-center justify-between text-[19px] sm:text-[23px]">
+                <span>
+                  Completed {doneCount} of {TOTAL_LESSONS} lessons
+                </span>
+                <span>{pct}%</span>
+              </div>
+              <div className="h-2.5 overflow-hidden rounded-full bg-c-track">
+                <div className="h-full rounded-full bg-white transition-all" style={{ width: `${pct}%` }} />
+              </div>
+            </div>
+          </section>
+
+          {!hasAccess && (
+            <div className="mt-8 flex flex-col items-start justify-between gap-4 rounded-3xl border border-c-line bg-c-card px-6 py-7 sm:flex-row sm:items-center sm:px-12">
+              <p className="text-[17px] text-c-body sm:text-[19px]">
+                Start Here is free. Unlock the 5-stage system for €37/month.
+              </p>
+              <Link
+                href="/pricing"
+                className="flex h-12 flex-shrink-0 items-center rounded-xl bg-c-blue px-6 text-[17px] font-medium text-[#0b1730] hover:brightness-110"
+              >
+                Unlock the course
+              </Link>
+            </div>
+          )}
+
+          <div className="mt-16">
+            <CourseOutline completed={completed} hasAccess={hasAccess} />
+          </div>
         </div>
       </div>
     </main>
   );
-}
-
-function LessonRow({
-  href,
-  title,
-  minutes,
-  locked,
-  done,
-}: {
-  href: string;
-  title: string;
-  minutes: number;
-  locked: boolean;
-  done: boolean;
-}) {
-  const content = (
-    <div
-      className={`flex items-center justify-between rounded-xl border border-line bg-bg-alt px-6 py-4 ${
-        locked ? "opacity-60" : "hover:border-line-strong"
-      }`}
-    >
-      <div className="flex items-center gap-3">
-        {done && (
-          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-accent text-accent-fg">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-              <polyline points="20 6 9 17 4 12" />
-            </svg>
-          </span>
-        )}
-        <span className="font-medium text-fg">{title}</span>
-      </div>
-      <div className="flex items-center gap-3 text-sm text-fg-faint">
-        <span>{minutes} min</span>
-        {locked && (
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <rect x="5" y="11" width="14" height="9" rx="2" />
-            <path d="M8 11V7a4 4 0 0 1 8 0v4" />
-          </svg>
-        )}
-      </div>
-    </div>
-  );
-
-  if (locked) return <div>{content}</div>;
-  return <Link href={href}>{content}</Link>;
 }

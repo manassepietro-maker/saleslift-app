@@ -287,4 +287,3 @@ export function getModule(slug: string) {
   return MODULES.find((m) => m.slug === slug);
 }
 
-export const TOTAL_LESSONS = MODULES.length; // used by the progress bar
