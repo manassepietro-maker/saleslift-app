@@ -53,7 +53,15 @@ a {
 .grow-bar { transform: scaleX(0); transform-origin: left; transition: transform 1.4s cubic-bezier(0.2, 0.7, 0.2, 1) 0.3s; }
 .is-visible .grow-bar { transform: scaleX(1); }
 
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.logo-marquee-track { animation: marquee 35s linear infinite; }
+.logo-marquee:hover .logo-marquee-track { animation-play-state: paused; }
+
 @media (prefers-reduced-motion: reduce) {
+  .logo-marquee-track { animation: none; flex-wrap: wrap; justify-content: center; width: auto; }
   .reveal, .reveal[data-from] { opacity: 1; transform: none; transition: none; }
   .animate-float, .animate-glow { animation: none; }
   .draw-path { stroke-dashoffset: 0; transition: none; }

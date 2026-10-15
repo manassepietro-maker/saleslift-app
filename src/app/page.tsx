@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { Logo } from "@/components/Logo";
 import { BuyButton } from "@/components/BuyButton";
 import { Reveal, CountUp } from "@/components/landing/Reveal";
+import { LogoStrip } from "@/components/landing/LogoStrip";
 import {
   HeroCards,
   PainSection,
@@ -171,8 +172,10 @@ export default async function LandingPage() {
         </div>
       </section>
 
+      <LogoStrip />
+
       {/* Pain */}
-      <section className="border-t border-line bg-[#18191c] px-5 py-24 sm:px-8 lg:py-32">
+      <section className="bg-[#18191c] px-5 py-24 sm:px-8 lg:py-32">
         <div className="mx-auto max-w-7xl">
           <Reveal className="mx-auto mb-16 max-w-3xl text-center">
             <h2 className="mb-5 text-[38px] font-extrabold leading-tight tracking-tight sm:text-[54px]">Sound familiar?</h2>
