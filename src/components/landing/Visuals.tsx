@@ -189,9 +189,47 @@ export function CallbackChart() {
 /* Plan: five stages along a rising, color-shifting path.                */
 /* ---------------------------------------------------------------------- */
 
+// 0 → 1 as the element scrolls up through the viewport, and back to 0 when
+// scrolling up again. "screen": done after ~60% of a screen of scrolling;
+// "element": done when the element's bottom reaches the same line its top
+// started from (good for tall lists).
+function useScrollProgress(ref: React.RefObject<HTMLElement>, span: "screen" | "element" = "screen") {
+  const [progress, setProgress] = useState(0);
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setProgress(1);
+      return;
+    }
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const el = ref.current;
+      if (!el) return;
+      const vh = window.innerHeight;
+      const rect = el.getBoundingClientRect();
+      const distance = span === "element" ? Math.max(rect.height, 1) : vh * 0.6;
+      setProgress(Math.min(1, Math.max(0, (vh * 0.85 - rect.top) / distance)));
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, [ref, span]);
+  return progress;
+}
+
 export function StagePath({ stages }: { stages: { n: string; name: string; detail: string; outcome: string }[] }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const visible = useInView(ref, 0.2);
+  const desktopRef = useRef<HTMLDivElement>(null);
+  const mobileRef = useRef<HTMLOListElement>(null);
+  const progress = useScrollProgress(desktopRef);
+  const mobileProgress = useScrollProgress(mobileRef, "element");
   // Points on the curve where each stage sits (viewBox 1000 x 260).
   const points = [
     [100, 220],
@@ -200,11 +238,15 @@ export function StagePath({ stages }: { stages: { n: string; name: string; detai
     [700, 95],
     [900, 40],
   ];
+  // How far along the drawn line each stage sits (the path runs x = -40 → 1040).
+  const at = (x: number) => (x + 40) / 1080;
+  const shown = (i: number) => progress >= at(points[i][0]);
+  const smooth = "opacity 0.45s ease, transform 0.45s ease";
 
   return (
-    <div ref={ref} className={visible ? "is-visible" : ""}>
-      {/* Desktop: curve + staggered cards */}
-      <div className="relative hidden lg:block">
+    <div>
+      {/* Desktop: curve + cards, drawn in step with scrolling */}
+      <div ref={desktopRef} className="relative hidden lg:block">
         <svg viewBox="0 0 1000 260" className="h-auto w-full overflow-visible" aria-hidden="true">
           <defs>
             <linearGradient id="stage-line" x1="0" x2="1" y1="0" y2="0">
@@ -224,16 +266,23 @@ export function StagePath({ stages }: { stages: { n: string; name: string; detai
             />
           ))}
           <path
-            className="draw-path"
             d="M-40 245 C 120 230, 220 200, 300 180 S 450 158, 500 150 S 650 115, 700 95 S 850 52, 1040 25"
             fill="none"
             stroke="url(#stage-line)"
             strokeWidth="5"
             strokeLinecap="round"
+            pathLength={1}
+            strokeDasharray="1 1"
+            strokeDashoffset={1 - progress}
+            style={{ opacity: progress > 0.005 ? 1 : 0 }}
           />
           {/* Start/end labels so the curve reads as "ignored → interviewing". */}
-          <text x="0" y="218" fill="#8e8f97" fontSize="15" fontWeight="600">Ignored</text>
-          <text x="1000" y="8" fill="#22b07d" fontSize="15" fontWeight="700" textAnchor="end">Interviewing</text>
+          <text x="0" y="218" fill="#8e8f97" fontSize="15" fontWeight="600" style={{ transition: smooth, opacity: progress > 0 ? 1 : 0 }}>
+            Ignored
+          </text>
+          <text x="1000" y="8" fill="#22b07d" fontSize="15" fontWeight="700" textAnchor="end" style={{ transition: smooth, opacity: progress >= 0.98 ? 1 : 0 }}>
+            Interviewing
+          </text>
           {/* Dashed connectors from each diamond down to its card. */}
           {points.map(([x, y], i) => (
             <line
@@ -246,13 +295,13 @@ export function StagePath({ stages }: { stages: { n: string; name: string; detai
               strokeOpacity={0.5}
               strokeWidth="1.5"
               strokeDasharray="4 5"
-              style={{ transition: `opacity 0.6s ${0.9 + i * 0.3}s`, opacity: visible ? 1 : 0 }}
+              style={{ transition: smooth, opacity: shown(i) ? 1 : 0 }}
             />
           ))}
           {points.map(([x, y], i) => (
             <g
               key={i}
-              style={{ transition: `opacity 0.5s ${0.6 + i * 0.3}s, transform 0.5s ${0.6 + i * 0.3}s`, opacity: visible ? 1 : 0, transformOrigin: `${x}px ${y}px`, transform: visible ? "none" : "scale(0.3)" }}
+              style={{ transition: smooth, opacity: shown(i) ? 1 : 0, transformOrigin: `${x}px ${y}px`, transform: shown(i) ? "none" : "scale(0.3)" }}
             >
               <rect x={x - 13} y={y - 13} width="26" height="26" transform={`rotate(45 ${x} ${y})`} fill={STAGE_COLORS[i]} />
               <rect x={x - 4} y={y - 4} width="8" height="8" transform={`rotate(45 ${x} ${y})`} fill="#1b1c20" />
@@ -262,7 +311,11 @@ export function StagePath({ stages }: { stages: { n: string; name: string; detai
         {/* No grid gap: each column is exactly 20% wide, so card centers sit under the diamonds. */}
         <div className="grid grid-cols-5">
           {stages.map((s, i) => (
-            <Reveal key={s.n} delay={700 + i * 200} className="flex flex-col px-2.5">
+            <div
+              key={s.n}
+              className="flex flex-col px-2.5"
+              style={{ transition: smooth, opacity: shown(i) ? 1 : 0, transform: shown(i) ? "none" : "translateY(24px)" }}
+            >
               <span
                 className="mx-auto h-8 w-px"
                 style={{ background: `repeating-linear-gradient(${STAGE_COLORS[i]}80 0 4px, transparent 4px 9px)` }}
@@ -284,27 +337,36 @@ export function StagePath({ stages }: { stages: { n: string; name: string; detai
                   <p className="text-[15px] font-semibold" style={{ color: STAGE_COLORS[i] }}>{s.outcome}</p>
                 </div>
               </div>
-            </Reveal>
+            </div>
           ))}
         </div>
       </div>
 
-      {/* Mobile: vertical timeline */}
-      <ol className="relative ml-3 border-l-2 border-line lg:hidden">
-        {stages.map((s, i) => (
-          <Reveal as="li" key={s.n} delay={i * 120} className="relative mb-8 pl-8 last:mb-0">
-            <span
-              className="absolute -left-[9px] top-1.5 h-4 w-4 rotate-45"
-              style={{ background: STAGE_COLORS[i] }}
-            />
-            <p className="mb-1 text-[12px] font-semibold uppercase tracking-[0.25em]" style={{ color: STAGE_COLORS[i] }}>
-              Stage {s.n}
-            </p>
-            <h3 className="mb-1 text-[20px] font-bold text-fg">{s.name}</h3>
-            <p className="mb-2 text-[16px] leading-relaxed text-fg-dim">{s.detail}</p>
-            <p className="text-[15px] font-semibold" style={{ color: STAGE_COLORS[i] }}>→ {s.outcome}</p>
-          </Reveal>
-        ))}
+      {/* Mobile: vertical timeline whose colored line fills as you scroll */}
+      <ol ref={mobileRef} className="relative ml-3 border-l-2 border-line lg:hidden">
+        <span
+          className="absolute -left-[2px] top-0 w-[2px] bg-gradient-to-b from-accent via-amber to-green"
+          style={{ height: `${mobileProgress * 100}%` }}
+          aria-hidden="true"
+        />
+        {stages.map((s, i) => {
+          const on = mobileProgress >= i / stages.length;
+          return (
+            <li
+              key={s.n}
+              className="relative mb-8 pl-8 last:mb-0"
+              style={{ transition: smooth, opacity: on ? 1 : 0.15, transform: on ? "none" : "translateX(12px)" }}
+            >
+              <span className="absolute -left-[9px] top-1.5 h-4 w-4 rotate-45" style={{ background: STAGE_COLORS[i] }} />
+              <p className="mb-1 text-[12px] font-semibold uppercase tracking-[0.25em]" style={{ color: STAGE_COLORS[i] }}>
+                Stage {s.n}
+              </p>
+              <h3 className="mb-1 text-[20px] font-bold text-fg">{s.name}</h3>
+              <p className="mb-2 text-[16px] leading-relaxed text-fg-dim">{s.detail}</p>
+              <p className="text-[15px] font-semibold" style={{ color: STAGE_COLORS[i] }}>→ {s.outcome}</p>
+            </li>
+          );
+        })}
       </ol>
     </div>
   );

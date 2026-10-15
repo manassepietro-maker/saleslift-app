@@ -1,15 +1,15 @@
 // "Interviews secured with": companies the founder got interviews at.
-// Each company shows its logo file from /public/logos/ when `logo` is set,
-// otherwise a text wordmark. Logos are tinted to one light gray so different
-// brand colors sit together in the ticker.
-const COMPANIES: { name: string; className: string; logo?: string }[] = [
-  { name: "Gartner", className: "font-bold tracking-tight" },
-  { name: "salesforce", className: "font-semibold tracking-tight" },
-  { name: "DATADOG", className: "font-extrabold tracking-[0.08em]" },
-  { name: "rossum", className: "font-bold lowercase tracking-tight" },
-  { name: "1Password", className: "font-bold tracking-tight" },
-  { name: "dashmote", className: "font-semibold lowercase tracking-tight" },
-  { name: "Samsara", className: "font-semibold tracking-tight" },
+// Logos live in /public/logos/ as light-gray PNGs on transparent backgrounds
+// (cut out from the originals). `height` is tuned per logo so wide wordmarks
+// and compact marks look equally heavy in the ticker.
+const COMPANIES: { name: string; logo: string; height: number }[] = [
+  { name: "Gartner", logo: "/logos/gartner.png", height: 30 },
+  { name: "Salesforce", logo: "/logos/salesforce.png", height: 46 },
+  { name: "Datadog", logo: "/logos/datadog.png", height: 34 },
+  { name: "Rossum", logo: "/logos/rossum.png", height: 26 },
+  { name: "1Password", logo: "/logos/1password.png", height: 30 },
+  { name: "Dashmote", logo: "/logos/dashmote.png", height: 22 },
+  { name: "Samsara", logo: "/logos/samsara.png", height: 28 },
 ];
 
 export function LogoStrip() {
@@ -24,20 +24,13 @@ export function LogoStrip() {
         <div className="logo-marquee-track flex w-max items-center">
           {row.map((c, i) => (
             <span key={i} aria-hidden={i >= COMPANIES.length} className="mx-10 flex items-center sm:mx-14">
-              {c.logo ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={c.logo}
-                  alt={c.name}
-                  className="h-8 w-auto max-w-[170px] opacity-60 brightness-0 invert transition-opacity hover:opacity-100"
-                />
-              ) : (
-                <span
-                  className={`whitespace-nowrap text-[28px] text-fg-faint transition-colors hover:text-fg sm:text-[32px] ${c.className}`}
-                >
-                  {c.name}
-                </span>
-              )}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={c.logo}
+                alt={i >= COMPANIES.length ? "" : c.name}
+                style={{ height: c.height }}
+                className="w-auto opacity-60 transition-opacity hover:opacity-100"
+              />
             </span>
           ))}
         </div>
