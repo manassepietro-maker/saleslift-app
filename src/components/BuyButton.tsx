@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 
-// Sends the visitor straight to Stripe Checkout — no account needed first.
+// Sends the visitor straight to Stripe Checkout; no account needed first.
 // After paying, /checkout/success creates their account and logs them in.
 export function BuyButton({
-  label = "Get the system — €37/mo",
+  label = "Get the system · €37/mo",
   variant = "primary",
   className = "",
 }: {
@@ -24,9 +24,9 @@ export function BuyButton({
         window.location.href = data.url;
         return;
       }
-      alert(data.error ?? "Something went wrong — try again.");
+      alert(data.error ?? "Something went wrong. Try again.");
     } catch {
-      alert("Something went wrong — try again.");
+      alert("Something went wrong. Try again.");
     }
     setLoading(false);
   }

@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 // the mailto link below for a real Cal.com/Calendly embed + Stripe checkout
 // when you're ready to build that phase.
 const TIERS = [
-  { name: "Free consult", price: "Free", detail: "20 minutes — see if it's a fit" },
+  { name: "Free consult", price: "Free", detail: "20 minutes to see if it's a fit" },
   { name: "Quick session", price: "€60", detail: "30 minutes" },
   { name: "Full session", price: "€100", detail: "60 minutes" },
   { name: "5-pack", price: "€400", detail: "Five sessions, book anytime" },
@@ -28,7 +28,7 @@ export default async function CoachingPage() {
       <div className="mx-auto max-w-2xl px-6 py-20">
         <h1 className="mb-3 font-display text-3xl font-bold text-fg">1:1 Coaching</h1>
         <p className="mb-10 text-fg-dim">
-          Live sessions to help with interview prep once you've booked one — on top of the system.
+          Live sessions to help with interview prep once you've booked one, on top of the system.
         </p>
         <div className="grid grid-cols-2 gap-4">
           {TIERS.map((t) => (
@@ -40,7 +40,7 @@ export default async function CoachingPage() {
           ))}
         </div>
         <div className="mt-10 rounded-xl border border-dashed border-line-strong bg-bg-alt p-6 text-sm text-fg-faint">
-          Booking + payment for coaching isn't wired up yet — that's Phase 2. For now this
+          Booking + payment for coaching isn't wired up yet. That's Phase 2. For now this
           page shows the offer; replace this box with a real booking link (e.g. Cal.com) and
           Stripe checkout when you're ready to build that piece.
         </div>

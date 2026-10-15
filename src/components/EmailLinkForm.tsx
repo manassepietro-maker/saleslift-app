@@ -17,9 +17,9 @@ export function EmailLinkForm({ mode }: { mode: "login" | "signup" }) {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (params.get("paid") === "1")
-      setNotice("Payment confirmed — your account is ready. Enter the email you paid with and we'll send your login link.");
+      setNotice("Payment confirmed. Your account is ready. Enter the email you paid with and we'll send your login link.");
     else if (params.get("paid") === "pending")
-      setNotice("Thanks! We're still confirming your payment. Enter the email you paid with — your login link works as soon as it's confirmed.");
+      setNotice("Thanks! We're still confirming your payment. Enter the email you paid with. Your login link works as soon as it's confirmed.");
     else if (params.get("error") === "link")
       setError("That login link has expired, or was opened in a different browser. Request a new one below.");
   }, []);

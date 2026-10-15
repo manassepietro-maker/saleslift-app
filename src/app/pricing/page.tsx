@@ -42,7 +42,7 @@ export default async function PricingPage() {
           </ul>
           {hasAccess ? (
             <Link href="/dashboard" className="block bg-accent py-4 text-center text-[17px] font-semibold text-white">
-              You already have access — go to the course
+              You already have access. Go to the course
             </Link>
           ) : (
             <BuyButton label="Get the system" className="w-full justify-between" />

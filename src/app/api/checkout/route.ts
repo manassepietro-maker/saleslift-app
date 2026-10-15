@@ -31,6 +31,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ url: session.url });
   } catch (err) {
     console.error("Stripe checkout session failed", err);
-    return NextResponse.json({ error: "Checkout is unavailable right now — try again in a minute." }, { status: 500 });
+    return NextResponse.json({ error: "Checkout is unavailable right now. Try again in a minute." }, { status: 500 });
   }
 }

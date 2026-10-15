@@ -1,4 +1,4 @@
-# High Value Product Template (placeholder — replace with your real template)
+# High Value Product Template (placeholder: replace with your real template)
 
 **Role:** [Job title] · **Company:** [Company name]
 
@@ -13,8 +13,8 @@ a market they just entered, a competitor move). Proves you did the research.
 
 ## 3. A worked example
 Pick one real, named account or segment of theirs. Show how you'd
-approach it — the actual thinking, not a generic framework.
+approach it: the actual thinking, not a generic framework.
 
 ## 4. Why this matters to you specifically
 Tie it back to your own track record in one or two lines. This section is
-short on purpose — the case above is the proof, not this paragraph.
+short on purpose. The case above is the proof, not this paragraph.

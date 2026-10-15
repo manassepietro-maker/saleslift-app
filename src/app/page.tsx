@@ -25,6 +25,18 @@ const PAIN_POINTS = [
   "Every job-search tip you find online is generic, written for people who've never had to sell anything to anyone.",
 ];
 
+// Roles shown in the hero so visitors can spot their own title.
+const ROLES = [
+  "SDR",
+  "BDR",
+  "SMB AE",
+  "Mid-Market AE",
+  "Enterprise AE",
+  "Strategic Accounts",
+  "Account Manager",
+  "Customer Success",
+];
+
 const OLD_WAY = [
   'Type "sales jobs" on Google and randomly apply',
   "Send out the same CV to every single position",
@@ -48,18 +60,18 @@ const STAGES = [
   { n: "05", name: "Execute", detail: "Run outreach and follow-ups on a simple weekly rhythm.", outcome: "Interviews on your calendar" },
 ];
 
-// The inbox that's waiting — newest email first, like a real inbox.
+// The inbox that's waiting: newest email first, like a real inbox.
 const INBOX = [
   {
     from: "Hiring Manager",
-    subject: "Offer — let's talk numbers",
+    subject: "Offer: let's talk numbers",
     preview: "We'd love to have you on the team. Before we send the paperwork, what base would make this an easy yes for you?",
     time: "16:30",
     color: "#22b07d",
   },
   {
     from: "Talent Partner",
-    subject: "Final round — does Thursday work?",
+    subject: "Final round: does Thursday work?",
     preview: "The panel was impressed with your territory plan. Are you free Thursday at 10:00 to meet the CRO?",
     time: "14:05",
     color: "#f5b524",
@@ -74,7 +86,7 @@ const INBOX = [
   {
     from: "Head of Sales",
     subject: "Quick chat about our AE opening?",
-    preview: "Thanks for reaching out directly — we're hiring two AEs and your background stood out. Free for a call tomorrow?",
+    preview: "Thanks for reaching out directly. We're hiring two AEs and your background stood out. Free for a call tomorrow?",
     time: "9:12",
     color: "#2b7bf6",
   },
@@ -82,10 +94,10 @@ const INBOX = [
 
 const MODULES = [
   { n: "01", name: "Positioning", minutes: 11, detail: "Optimize your LinkedIn profile. Structure your CV to highlight real impact. Present your experience in a way that matches your target roles." },
-  { n: "02", name: "Targeting", minutes: 10, detail: "Find high-quality roles across the right platforms. Run a simple tracker — your own mini-CRM for the search. Evaluate companies properly before you spend time on them." },
+  { n: "02", name: "Targeting", minutes: 10, detail: "Find high-quality roles across the right platforms. Run a simple tracker, your own mini-CRM for the search. Evaluate companies properly before you spend time on them." },
   { n: "03", name: "Access", minutes: 10, detail: "Identify hiring managers and key stakeholders. Find contact details using LinkedIn and the right tools. Learn who's worth reaching out to and who isn't." },
-  { n: "04", name: "Leverage", minutes: 14, detail: "Build a High Value Product — a mini business case made for the specific role, so you walk in already holding a proposal. Make your application about their business, not a recap of your resume.", highlight: "Where most win or lose" },
-  { n: "05", name: "Execution", minutes: 10, detail: "Write outreach that actually gets replies. Follow up without being ignored — treat silence like an objection, not a no. Run a simple weekly system so you stay consistent." },
+  { n: "04", name: "Leverage", minutes: 14, detail: "Build a High Value Product: a mini business case made for the specific role, so you walk in already holding a proposal. Make your application about their business, not a recap of your resume.", highlight: "Where most win or lose" },
+  { n: "05", name: "Execution", minutes: 10, detail: "Write outreach that actually gets replies. Follow up without being ignored. Treat silence like an objection, not a no. Run a simple weekly system so you stay consistent." },
 ];
 
 const FOR = [
@@ -173,8 +185,8 @@ export default async function LandingPage() {
             </Reveal>
             <Reveal delay={150}>
               <p className="mb-10 max-w-xl text-[19px] leading-relaxed text-fg-dim sm:text-[21px]">
-                The job search system that <em className="not-italic font-semibold text-fg">actually</em> gets salespeople
-                interviews. Built by a salesperson, for salespeople who already know they&apos;re good enough.
+                The job hunt is broken. This 5-stage system took me from{" "}
+                <span className="font-semibold text-fg">1% to 50% callbacks</span>, and it works for salespeople like you.
               </p>
             </Reveal>
             <Reveal delay={300}>
@@ -191,6 +203,21 @@ export default async function LandingPage() {
                 <a href="#how-it-works" className="text-[17px] font-medium text-fg-dim no-underline hover:text-fg">
                   See how it works →
                 </a>
+              </div>
+            </Reveal>
+            <Reveal delay={450}>
+              <div className="mt-10">
+                <p className="mb-3 text-[13px] font-semibold uppercase tracking-[0.25em] text-fg-faint">Built for</p>
+                <ul className="flex max-w-xl flex-wrap gap-2">
+                  {ROLES.map((r) => (
+                    <li
+                      key={r}
+                      className="border border-line-strong bg-bg-alt/70 px-3 py-1.5 text-[14px] font-medium text-fg-dim transition-colors hover:border-accent hover:text-fg"
+                    >
+                      {r}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </Reveal>
           </div>
@@ -238,8 +265,8 @@ export default async function LandingPage() {
                 and a year where I sent hundreds of applications and got two interviews. Two.
               </p>
               <p className="text-[19px] leading-relaxed text-fg-dim">
-                That&apos;s when I stopped treating my search like a form to fill out and started treating it
-                like a pipeline. SalesLift is the methodology, built on months of work so you don&apos;t have to
+                That&apos;s when I stopped treating my search like a form to fill out and built a system that works
+                around the broken process. SalesLift is that system, built on months of work so you don&apos;t have to
                 find it the hard way.
               </p>
             </Reveal>
@@ -253,8 +280,8 @@ export default async function LandingPage() {
         <div className="mx-auto max-w-6xl">
           <Reveal className="mx-auto mb-16 max-w-4xl text-center">
             <h2 className="text-[34px] font-extrabold leading-tight tracking-tight sm:text-[50px]">
-              Your job search is a sales process.{" "}
-              <span className="text-fg-faint">Most people just aren&apos;t running it like one.</span>
+              The rules changed.{" "}
+              <span className="text-fg-faint">Most candidates didn&apos;t.</span>
             </h2>
           </Reveal>
           <div className="grid gap-6 md:grid-cols-2">
@@ -308,7 +335,7 @@ export default async function LandingPage() {
               From ignored to <span className="text-green">interviewing.</span>
             </h2>
             <p className="mx-auto max-w-2xl text-[19px] text-fg-dim">
-              Five stages, each building on the last — the same way you&apos;d work a pipeline.
+              Five stages, each one building on the last. Skip one and the rest gets harder.
             </p>
           </Reveal>
           <StagePath stages={STAGES} />
@@ -326,7 +353,7 @@ export default async function LandingPage() {
                 What you actually get
               </h2>
               <p className="mb-10 text-[19px] leading-relaxed text-fg-dim">
-                Five short, practical modules plus templates you&apos;ll use the same day. No filler, no quizzes — just the
+                Five short, practical modules plus templates you&apos;ll use the same day. No filler, no quizzes. Just the
                 system.
               </p>
             </Reveal>
@@ -402,7 +429,7 @@ export default async function LandingPage() {
             ))}
           </div>
           <p className="mt-8 text-center text-[14px] text-fg-faint">
-            Results depend on how fully you run the system — this is what became possible, not a guarantee
+            Results depend on how fully you run the system. This is what became possible, not a guarantee
             of what will happen automatically.
           </p>
         </div>
@@ -491,10 +518,10 @@ export default async function LandingPage() {
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-72 bg-[radial-gradient(50%_100%_at_50%_100%,rgba(43,123,246,0.3),transparent)]" />
         <Reveal className="relative mx-auto max-w-3xl">
           <h2 className="mb-6 text-[38px] font-extrabold leading-[1.05] tracking-tight sm:text-[58px]">
-            Time to build the pipeline <span className="text-accent">nobody built for you.</span>
+            The job hunt is broken. <span className="text-accent">Your search doesn&apos;t have to be.</span>
           </h2>
           <p className="mx-auto mb-10 max-w-2xl text-[19px] leading-relaxed text-fg-dim">
-            You already know how to sell — you&apos;ve spent your career doing it for someone else. SalesLift
+            You already know how to sell. You&apos;ve spent your career doing it for someone else. SalesLift
             is the plan to point it at your own search.
           </p>
           <BuyButton label="Get the system" />

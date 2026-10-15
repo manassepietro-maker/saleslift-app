@@ -18,7 +18,7 @@ export type ContentBlock =
 
 export type Template = {
   label: string;
-  // Path under /public/templates/ — replace these placeholder files with
+  // Path under /public/templates/. Replace these placeholder files with
   // your real templates before launch (see /public/templates/README.md).
   file: string;
 };
@@ -43,7 +43,7 @@ export const WELCOME = {
     },
     {
       type: "p",
-      text: "This is your navigation hub for the course, because the fastest way to get results is to follow a clear system instead of guessing. Most candidates apply, wait, and get ignored. This course shows you how to run your job search the way you already know how to run a deal: with a pipeline, qualification, and a deliberate case for yourself — not a spray of applications and hope.",
+      text: "This is your navigation hub for the course, because the fastest way to get results is to follow a clear system instead of guessing. Most candidates apply, wait, and get ignored. This course shows you how to run your job search the way you already know how to run a deal: with a pipeline, qualification, and a deliberate case for yourself, not a spray of applications and hope.",
     },
     {
       type: "h3",
@@ -52,7 +52,7 @@ export const WELCOME = {
     {
       type: "list",
       items: [
-        "Focus on one module at a time, in order — each builds on the last.",
+        "Focus on one module at a time, in order. Each builds on the last.",
         "Apply what you learn immediately. Don't stockpile knowledge, use it on your next application.",
         "Keep your process simple. The tracker template is there to reduce your mental load, not add to it.",
         "Track what works and adjust.",
@@ -75,19 +75,19 @@ export const INTRO = {
     },
     {
       type: "p",
-      text: "Getting an interview has become genuinely hard — even for good sellers. I know because I lived it. After nearly two years building my own startup, I had to call it quits. Despite having AE experience at Gartner, overachieving my targets, and genuinely believing in my abilities, I sent out hundreds of CVs and got two interviews. Two.",
+      text: "Getting an interview has become genuinely hard, even for good sellers. I know because I lived it. After nearly two years building my own startup, I had to call it quits. Despite having AE experience at Gartner, overachieving my targets, and genuinely believing in my abilities, I sent out hundreds of CVs and got two interviews. Two.",
     },
     {
       type: "p",
-      text: "That's when I realized: the system is broken, not me. Recruiters and companies are lazy. They filter you out with ATS tools before a human ever reads your name. Hiring managers bring their own contacts in through the back door. Timing matters — apply on day one and you're competing against thousands of applicants; apply after two weeks and you're one of five.",
+      text: "That's when I realized: the system is broken, not me. Recruiters and companies are lazy. They filter you out with ATS tools before a human ever reads your name. Hiring managers bring their own contacts in through the back door. Timing matters: apply on day one and you're competing against thousands of applicants; apply after two weeks and you're one of five.",
     },
     {
       type: "p",
-      text: "Most people lose before they start. They apply, they wait, they get ghosted, they repeat — because they're treating a hiring process like a form to fill out, instead of what it actually is: a sale where you're the product.",
+      text: "Most people lose before they start. They apply, they wait, they get ghosted, they repeat, because they're treating a hiring process like a form to fill out, instead of what it actually is: a sale where you're the product.",
     },
     {
       type: "p",
-      text: "So I studied how the system actually filters people, and built a way to work with it instead of hoping to beat it — the same way you'd build a pipeline instead of hoping a cold list converts itself. That's this course.",
+      text: "So I studied how the system actually filters people, and built a way to work with it instead of hoping to beat it, the same way you'd build a pipeline instead of hoping a cold list converts itself. That's this course.",
     },
     {
       type: "callout",
@@ -104,16 +104,16 @@ export const MODULES: Module[] = [
     oneLiner: "Make a strong impression before you even apply.",
     estimatedMinutes: 11,
     summary:
-      "Optimize your LinkedIn profile, restructure your CV around real impact, and frame your experience to match the roles you actually want — so the first ten seconds someone spends on your application work in your favor.",
+      "Optimize your LinkedIn profile, restructure your CV around real impact, and frame your experience to match the roles you actually want, so the first ten seconds someone spends on your application work in your favor.",
     body: [
       {
         type: "p",
-        text: "Before you send a single application, the way you're positioned decides most of what happens next. This is the equivalent of the opening of a case you'd make for a deal — before anyone's agreed to listen. Get it wrong and everything downstream gets harder.",
+        text: "Before you send a single application, the way you're positioned decides most of what happens next. This is the equivalent of the opening of a case you'd make for a deal, before anyone's agreed to listen. Get it wrong and everything downstream gets harder.",
       },
       { type: "h3", text: "Your LinkedIn profile" },
       {
         type: "p",
-        text: "Most salespeople's LinkedIn reads like a job description, not a track record. Rewrite your headline and About section around outcomes: quota attainment, deal sizes, what you actually moved. Recruiters and hiring managers skim — give them numbers to skim.",
+        text: "Most salespeople's LinkedIn reads like a job description, not a track record. Rewrite your headline and About section around outcomes: quota attainment, deal sizes, what you actually moved. Recruiters and hiring managers skim. Give them numbers to skim.",
       },
       {
         type: "image",
@@ -126,13 +126,13 @@ export const MODULES: Module[] = [
         type: "list",
         items: [
           "Lead every bullet with the result, not the responsibility.",
-          "Quantify: quota %, deal size, sales cycle length, retention/expansion — whatever you actually have.",
+          "Quantify: quota %, deal size, sales cycle length, retention/expansion, whatever you actually have.",
           "Cut anything that doesn't support the specific role you're applying to. A CV is not an autobiography.",
         ],
       },
       {
         type: "p",
-        text: "Use the CV template below as a starting structure, not a straitjacket — the goal is impact-first, not a format to copy blindly.",
+        text: "Use the CV template below as a starting structure, not a straitjacket. The goal is impact-first, not a format to copy blindly.",
       },
     ],
     templates: [
@@ -155,20 +155,20 @@ export const MODULES: Module[] = [
       { type: "h3", text: "Where to actually look" },
       {
         type: "p",
-        text: "Job boards are the last channel, not the first — by the time a role is posted publicly, it's already competing you against the widest possible pool. Prioritize company career pages you're targeting directly, warm and second-degree connections, and niche communities in your specific vertical over generic aggregators.",
+        text: "Job boards are the last channel, not the first. By the time a role is posted publicly, it's already competing you against the widest possible pool. Prioritize company career pages you're targeting directly, warm and second-degree connections, and niche communities in your specific vertical over generic aggregators.",
       },
       { type: "h3", text: "Qualify before you apply" },
       {
         type: "list",
         items: [
           "Is the company actually growing, or is this a backfill for a role three people just left?",
-          "Does the comp/level match what you're worth — or are you about to negotiate from behind?",
+          "Does the comp/level match what you're worth, or are you about to negotiate from behind?",
           "Do you have any real access into this company (a contact, a warm intro), or are you applying cold into a queue of hundreds?",
         ],
       },
       {
         type: "p",
-        text: "Log every role you're seriously considering in the tracker below. It's a simple mini-CRM for your search — same idea as a pipeline: know where every deal actually stands instead of trusting your memory.",
+        text: "Log every role you're seriously considering in the tracker below. It's a simple mini-CRM for your search. Same idea as a pipeline: know where every deal actually stands instead of trusting your memory.",
       },
     ],
     templates: [
@@ -182,7 +182,7 @@ export const MODULES: Module[] = [
     oneLiner: "Reach the people who actually make hiring decisions.",
     estimatedMinutes: 10,
     summary:
-      "Identify hiring managers and key stakeholders, find their contact details, and learn who's actually worth reaching out to — the same way you'd prospect a real buyer instead of hoping a form gets read.",
+      "Identify hiring managers and key stakeholders, find their contact details, and learn who's actually worth reaching out to, the same way you'd prospect a real buyer instead of hoping a form gets read.",
     body: [
       {
         type: "p",
@@ -192,9 +192,9 @@ export const MODULES: Module[] = [
       {
         type: "list",
         items: [
-          "Search LinkedIn for the team you'd be joining — the hiring manager is almost always one or two titles above the role you want, on the same team.",
+          "Search LinkedIn for the team you'd be joining. The hiring manager is almost always one or two titles above the role you want, on the same team.",
           "Use company org charts, recent LinkedIn posts about the team growing, or press releases about the department to confirm who's actually building this team right now.",
-          "A few contact-finding tools (email finders, LinkedIn Sales Navigator) will get you a direct line once you know the name — worth the small cost for a role you're serious about.",
+          "A few contact-finding tools (email finders, LinkedIn Sales Navigator) will get you a direct line once you know the name. Worth the small cost for a role you're serious about.",
         ],
       },
       { type: "h3", text: "Not everyone is worth reaching out to" },
@@ -212,7 +212,7 @@ export const MODULES: Module[] = [
     oneLiner: "Stand out before the interview even starts.",
     estimatedMinutes: 14,
     summary:
-      "Build a High Value Product — a short, role-specific business case that shows what you'd actually do in the job — so you walk into the process already holding a proposal instead of a resume.",
+      "Build a High Value Product: a short, role-specific business case that shows what you'd actually do in the job, so you walk into the process already holding a proposal instead of a resume.",
     body: [
       {
         type: "callout",
@@ -225,19 +225,19 @@ export const MODULES: Module[] = [
       { type: "h3", text: "The High Value Product (HVP)" },
       {
         type: "p",
-        text: "A High Value Product is a short, specific business case built for the exact role and company you're targeting — not a generic writing sample. For a sales role, that might be: a 90-day territory plan, a mock account plan for one of their actual named accounts, or a breakdown of where you'd find their next 10 opportunities and why.",
+        text: "A High Value Product is a short, specific business case built for the exact role and company you're targeting, not a generic writing sample. For a sales role, that might be: a 90-day territory plan, a mock account plan for one of their actual named accounts, or a breakdown of where you'd find their next 10 opportunities and why.",
       },
       {
         type: "list",
         items: [
           "Make it about their business, not a recap of your resume.",
-          "Keep it short — 1-2 pages or a compact slide, not a dissertation. This proves judgment, not stamina.",
+          "Keep it short: 1-2 pages or a compact slide, not a dissertation. This proves judgment, not stamina.",
           "Reference something specific and real about the company (a product launch, a market they just entered, a competitor move) so it's obviously not a template.",
         ],
       },
       {
         type: "p",
-        text: "The template below is a starting structure for your first HVP — adapt the sections to whatever's actually relevant for the role.",
+        text: "The template below is a starting structure for your first HVP. Adapt the sections to whatever's actually relevant for the role.",
       },
     ],
     templates: [
@@ -255,26 +255,26 @@ export const MODULES: Module[] = [
     body: [
       {
         type: "p",
-        text: "Everything so far only pays off if you run it consistently. This module is the cadence — the part that turns a good system into actual interviews on the calendar.",
+        text: "Everything so far only pays off if you run it consistently. This module is the cadence: the part that turns a good system into actual interviews on the calendar.",
       },
       { type: "h3", text: "Outreach that gets replies" },
       {
         type: "list",
         items: [
-          "Same principles as a cold sequence that actually converts: short, specific to them, and leads with something of value — not \"I'd love to learn more about opportunities.\"",
+          "Same principles as a cold sequence that actually converts: short, specific to them, and leads with something of value, not \"I'd love to learn more about opportunities.\"",
           "Reference the HVP or something specific from the Access module research in your first message.",
-          "One channel almost never works alone — pair LinkedIn with email where you can.",
+          "One channel almost never works alone. Pair LinkedIn with email where you can.",
         ],
       },
       { type: "h3", text: "Follow-up is not optional" },
       {
         type: "p",
-        text: "Treat silence like an objection, not a no. Most replies come after the second or third touch, not the first. Space follow-ups a few days apart and add something new each time — a relevant article, a follow-up thought on the HVP, not just \"just bumping this.\"",
+        text: "Treat silence like an objection, not a no. Most replies come after the second or third touch, not the first. Space follow-ups a few days apart and add something new each time: a relevant article, a follow-up thought on the HVP, not just \"just bumping this.\"",
       },
       { type: "h3", text: "The weekly system" },
       {
         type: "p",
-        text: "Block a fixed weekly time for the search — treat it like a pipeline review, not an ad hoc task. Update the tracker, send that week's outreach, follow up on anything gone quiet. Small and consistent beats a burst of effort every few weeks.",
+        text: "Block a fixed weekly time for the search. Treat it like a pipeline review, not an ad hoc task. Update the tracker, send that week's outreach, follow up on anything gone quiet. Small and consistent beats a burst of effort every few weeks.",
       },
     ],
     templates: [
