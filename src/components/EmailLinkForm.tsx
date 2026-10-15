@@ -7,8 +7,19 @@ import { Logo } from "@/components/Logo";
 
 // Email-only login/sign-up: we email a one-time login link, no passwords.
 // mode "login" only works for existing accounts; "signup" creates one (free
-// preview of the Start Here lessons — paying customers get theirs at checkout).
-export function EmailLinkForm({ mode }: { mode: "login" | "signup" }) {
+// preview of the Start Here lessons; paying customers get theirs at checkout).
+// `next` is where the emailed link lands after logging in (default: course).
+export function EmailLinkForm({
+  mode,
+  next,
+  title: titleOverride,
+  intro,
+}: {
+  mode: "login" | "signup";
+  next?: string;
+  title?: string;
+  intro?: string;
+}) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
   const [error, setError] = useState<React.ReactNode>(null);
@@ -32,7 +43,7 @@ export function EmailLinkForm({ mode }: { mode: "login" | "signup" }) {
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
+        emailRedirectTo: `${window.location.origin}/auth/callback${next ? `?next=${encodeURIComponent(next)}` : ""}`,
         shouldCreateUser: mode === "signup",
       },
     });
@@ -58,7 +69,7 @@ export function EmailLinkForm({ mode }: { mode: "login" | "signup" }) {
     setStatus("sent");
   }
 
-  const title = mode === "login" ? "Welcome back" : "Join SalesLift";
+  const title = titleOverride ?? (mode === "login" ? "Welcome back" : "Join SalesLift");
 
   return (
     <main className="relative flex min-h-screen flex-col items-center overflow-hidden bg-bg px-6 pb-16 pt-24 font-inter sm:pt-32">
@@ -86,9 +97,9 @@ export function EmailLinkForm({ mode }: { mode: "login" | "signup" }) {
           <>
             <h1 className="mb-10 text-center text-[36px] font-bold tracking-tight text-fg">{title}</h1>
 
-            {notice && (
+            {(notice ?? intro) && (
               <p className="mb-6 rounded-xl border border-green/40 bg-green/10 px-5 py-4 text-[16px] leading-relaxed text-fg">
-                {notice}
+                {notice ?? intro}
               </p>
             )}
 
@@ -112,10 +123,11 @@ export function EmailLinkForm({ mode }: { mode: "login" | "signup" }) {
                 disabled={status === "sending"}
                 className="w-full rounded-xl bg-accent py-4 text-[19px] font-medium text-accent-fg transition hover:brightness-110 disabled:opacity-60"
               >
-                {status === "sending" ? "Sending..." : mode === "login" ? "Send login link" : "Sign up"}
+                {status === "sending" ? "Sending..." : mode === "login" || next ? "Send login link" : "Sign up"}
               </button>
             </form>
 
+            {!next && (
             <p className="mt-10 text-center text-[17px] text-fg-dim">
               {mode === "login" ? (
                 <>
@@ -133,6 +145,7 @@ export function EmailLinkForm({ mode }: { mode: "login" | "signup" }) {
                 </>
               )}
             </p>
+            )}
           </>
         )}
       </div>
