@@ -5,7 +5,7 @@ import { useState } from "react";
 // Sends the visitor straight to Stripe Checkout; no account needed first.
 // After paying, /checkout/success creates their account and logs them in.
 export function BuyButton({
-  label = "Get the system · €37/mo",
+  label = "Get the system · €42",
   variant = "primary",
   className = "",
 }: {

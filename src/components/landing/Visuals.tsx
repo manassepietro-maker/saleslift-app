@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Reveal, useInView } from "./Reveal";
+import { Reveal, useInView, CountUp } from "./Reveal";
 
 export const STAGE_COLORS = ["#2b7bf6", "#4f9bff", "#f5b524", "#9ccf4a", "#22b07d"];
 
@@ -59,77 +59,55 @@ export function HeroCards() {
 }
 
 /* ---------------------------------------------------------------------- */
-/* Pain: rotating list on the left, a bleak application tracker right.    */
+/* Pain: the list on the left, 50 applications → 1 reply on the right.  */
+/* Uses the same segmented blocks as the course cards further down.      */
 /* ---------------------------------------------------------------------- */
 
-const TRACKER = [
-  { company: "SaaS company", role: "Account Executive", status: "No reply · 21 days" },
-  { company: "Fintech scale-up", role: "Senior AE", status: "Auto-rejected" },
-  { company: "Cybersecurity vendor", role: "Mid-Market AE", status: "No reply · 14 days" },
-  { company: "HR tech startup", role: "Account Executive", status: "Viewed · no reply" },
-  { company: "Data platform", role: "Enterprise AE", status: "No reply · 9 days" },
-];
-
 export function PainSection({ points }: { points: string[] }) {
-  const [active, setActive] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
   const visible = useInView(ref);
-
-  useEffect(() => {
-    if (!visible) return;
-    const id = setInterval(() => setActive((a) => (a + 1) % points.length), 3500);
-    return () => clearInterval(id);
-  }, [visible, points.length]);
+  const REPLY = 37; // which of the 50 squares is the single reply
 
   return (
-    <div ref={ref} className="grid items-center gap-12 lg:grid-cols-2 [&>*]:min-w-0">
-      <ul className="border-l border-line">
+    <div className="grid items-center gap-12 lg:grid-cols-2 [&>*]:min-w-0">
+      <ul className="border-t border-line">
         {points.map((p, i) => (
-          <li key={p}>
-            <button
-              onClick={() => setActive(i)}
-              className={`relative -ml-px w-full border-l-[3px] px-6 py-4 text-left text-[18px] transition-all duration-500 sm:text-[20px] ${
-                active === i
-                  ? "border-accent bg-bg-alt2/70 font-semibold text-fg"
-                  : "border-transparent text-fg-faint hover:text-fg-dim"
-              }`}
-            >
-              {active === i && (
-                <span className="absolute left-2 top-1/2 -translate-y-1/2 text-accent">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="9 6 15 12 9 18" /></svg>
-                </span>
-              )}
-              <span className="block pl-3">{p}</span>
-            </button>
-          </li>
+          <Reveal as="li" key={p} delay={i * 90} className="flex gap-5 border-b border-line py-5">
+            <span className="pt-1 text-[14px] font-bold tabular-nums text-fg-faint">0{i + 1}</span>
+            <span className="text-[18px] leading-relaxed text-fg sm:text-[19px]">{p}</span>
+          </Reveal>
         ))}
       </ul>
 
       <Reveal from="right">
-        <div className="relative">
-          <div className="absolute -inset-8 bg-[radial-gradient(closest-side,rgba(43,123,246,0.25),transparent)]" />
-          <div className="relative overflow-hidden rounded-2xl border border-line-strong bg-bg-alt">
-            <div className="flex items-center justify-between gap-3 border-b border-line px-5 py-4 sm:px-6">
-              <span className="text-[15px] font-semibold text-fg">Your applications</span>
-              <span className="text-[14px] text-fg-faint">50 sent · 1 reply</span>
+        <div ref={ref} className="border border-line-strong bg-bg-alt p-7 sm:p-9">
+          <div className="mb-8 grid grid-cols-2 gap-6 border-b border-line pb-7">
+            <div>
+              <p className="text-[48px] font-extrabold leading-none tracking-tight text-fg">
+                <CountUp to={50} />
+              </p>
+              <p className="mt-2 text-[15px] text-fg-faint">Applications sent</p>
             </div>
-            {TRACKER.map((t, i) => (
-              <div
-                key={t.company}
-                className={`flex items-center justify-between gap-3 border-b border-line px-5 py-4 sm:px-6 last:border-b-0 transition-colors duration-500 ${
-                  i === active % TRACKER.length ? "bg-bg-alt2" : ""
-                }`}
-              >
-                <div className="min-w-0">
-                  <p className="truncate text-[15px] text-fg">{t.company}</p>
-                  <p className="truncate text-[13px] text-fg-faint">{t.role}</p>
-                </div>
-                <span className="flex-shrink-0 rounded-full border border-red-500/30 bg-red-500/10 px-3 py-1 text-[12px] font-medium text-red-300">
-                  {t.status}
-                </span>
-              </div>
+            <div>
+              <p className="text-[48px] font-extrabold leading-none tracking-tight text-accent">
+                <CountUp to={1} />
+              </p>
+              <p className="mt-2 text-[15px] text-fg-faint">Reply</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-10 gap-[6px]">
+            {Array.from({ length: 50 }).map((_, k) => (
+              <span
+                key={k}
+                className="aspect-square transition-colors duration-300"
+                style={{
+                  background: !visible ? "#2a2b30" : k === REPLY ? "#2b7bf6" : "#3a3b42",
+                  transitionDelay: `${200 + k * 25}ms`,
+                }}
+              />
             ))}
           </div>
+          <p className="mt-6 text-[15px] text-fg-faint">Each square is one application. One got a reply.</p>
         </div>
       </Reveal>
     </div>
@@ -137,48 +115,45 @@ export function PainSection({ points }: { points: string[] }) {
 }
 
 /* ---------------------------------------------------------------------- */
-/* Goal: callback rate before vs. after, as a growing bar chart.          */
+/* Goal: callback rate before vs. after, as segmented bars (1 block = 1%). */
 /* ---------------------------------------------------------------------- */
 
 export function CallbackChart() {
+  const ref = useRef<HTMLDivElement>(null);
+  const visible = useInView(ref);
   const rows = [
-    { label: "Applying the usual way", value: 1, color: "#6b6c74" },
+    { label: "Applying the usual way", value: 1, color: "#8e8f97" },
     { label: "Running the SalesLift system", value: 50, color: "#2b7bf6" },
   ];
   return (
-    <Reveal from="scale">
-      <div className="relative">
-        <div className="absolute -inset-10 bg-[radial-gradient(closest-side,rgba(43,123,246,0.28),transparent)]" />
-        <div className="relative rounded-2xl border border-line-strong bg-bg-alt p-7 sm:p-9">
-          <p className="mb-1 text-[14px] font-semibold uppercase tracking-wider text-fg-faint">Application → interview rate</p>
-          <p className="mb-8 text-[15px] text-fg-faint">My own numbers, before and after</p>
-          <div className="flex flex-col gap-7">
-            {rows.map((r) => (
-              <div key={r.label}>
-                <div className="mb-2 flex items-baseline justify-between">
-                  <span className="text-[16px] text-fg-dim">{r.label}</span>
-                  <span className="text-[28px] font-extrabold tabular-nums" style={{ color: r.value > 1 ? r.color : "#a1a2aa" }}>
-                    {r.value}%
-                  </span>
-                </div>
-                <div className="h-4 overflow-hidden rounded-full bg-bg-alt2">
-                  <div
-                    className="grow-bar h-full rounded-full"
+    <Reveal from="right">
+      <div ref={ref} className="border border-line-strong bg-bg-alt p-7 sm:p-9">
+        <p className="mb-9 text-[13px] font-semibold uppercase tracking-[0.25em] text-fg-faint">
+          Application to interview rate
+        </p>
+        <div className="flex flex-col gap-9">
+          {rows.map((r, ri) => (
+            <div key={r.label}>
+              <div className="mb-3 flex items-baseline justify-between gap-4">
+                <span className="text-[17px] text-fg">{r.label}</span>
+                <span className="text-[34px] font-extrabold tracking-tight" style={{ color: r.color }}>
+                  <CountUp to={r.value} suffix="%" />
+                </span>
+              </div>
+              <div className="flex gap-[3px]">
+                {Array.from({ length: 50 }).map((_, k) => (
+                  <span
+                    key={k}
+                    className="h-6 flex-1 transition-colors duration-200"
                     style={{
-                      width: `${Math.max(r.value * 2, 2)}%`,
-                      background: r.value > 1 ? `linear-gradient(90deg, #1f5fc4, ${r.color} 60%, #6fb1ff)` : r.color,
+                      background: visible && k < r.value ? r.color : "#2a2b30",
+                      transitionDelay: `${300 + ri * 400 + k * 22}ms`,
                     }}
                   />
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
-          {/* gridlines */}
-          <div className="mt-6 flex justify-between text-[12px] text-fg-faint">
-            <span>0%</span>
-            <span>25%</span>
-            <span>50%</span>
-          </div>
+            </div>
+          ))}
         </div>
       </div>
     </Reveal>

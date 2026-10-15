@@ -2,10 +2,14 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { stripe } from "@/lib/stripe";
 
-// Creates a Stripe Checkout Session for the €37/mo course subscription.
+// Creates a Stripe Checkout Session for the €42 one-time purchase
+// (lifetime access). The price is defined here, so no Stripe price ID is
+// needed; change PRICE_CENTS to change the price.
 // Works whether or not the visitor has an account: logged-in students are
 // linked by user id; new buyers pay first and get their account created on
 // /checkout/success (and by the webhook) from the email they give Stripe.
+const PRICE_CENTS = 4200;
+
 export async function POST(req: Request) {
   const supabase = createClient();
   const {
@@ -16,8 +20,21 @@ export async function POST(req: Request) {
 
   try {
     const session = await stripe.checkout.sessions.create({
-      mode: "subscription",
-      line_items: [{ price: process.env.STRIPE_PRICE_ID!, quantity: 1 }],
+      mode: "payment",
+      line_items: [
+        {
+          quantity: 1,
+          price_data: {
+            currency: "eur",
+            unit_amount: PRICE_CENTS,
+            product_data: {
+              name: "SalesLift: the full system",
+              description: "All five modules, every template, and lifetime access including future updates.",
+            },
+          },
+        },
+      ],
+      customer_creation: "always",
       ...(user
         ? {
             customer_email: user.email,

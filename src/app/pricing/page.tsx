@@ -33,12 +33,13 @@ export default async function PricingPage() {
         </p>
         <div className="border border-accent/50 bg-bg-alt p-9 shadow-[0_40px_120px_-40px_rgba(43,123,246,0.7)] sm:p-12">
           <div className="mb-8 text-[64px] font-extrabold leading-none tracking-tight text-fg">
-            €37<span className="text-[22px] font-medium text-fg-faint"> / month</span>
+            €42<span className="ml-3 text-[22px] font-medium text-fg-faint">one-time</span>
           </div>
           <ul className="mb-10 flex flex-col gap-3 text-[17px] text-fg">
-            <li>✓ Full course access, cancel anytime</li>
+            <li>✓ All five modules, lifetime access</li>
             <li>✓ Templates for every stage</li>
             <li>✓ Bonus: CV and Cover Letter Bot agents</li>
+            <li>✓ Pay once, including future updates</li>
           </ul>
           {hasAccess ? (
             <Link href="/dashboard" className="block bg-accent py-4 text-center text-[17px] font-semibold text-white">

@@ -52,7 +52,7 @@ export default async function DashboardPage() {
           {!hasAccess && (
             <div className="mt-8 flex flex-col items-start justify-between gap-4 rounded-3xl border border-c-line bg-c-card px-6 py-7 sm:flex-row sm:items-center sm:px-12">
               <p className="text-[17px] text-c-body sm:text-[19px]">
-                Start Here is free. Unlock the 5-stage system for €37/month.
+                Start Here is free. Unlock the 5-stage system for €42, one-time.
               </p>
               <Link
                 href="/pricing"

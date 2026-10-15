@@ -92,12 +92,13 @@ const INBOX = [
   },
 ];
 
+// What each module hands you, as short deliverables.
 const MODULES = [
-  { n: "01", name: "Positioning", minutes: 11, detail: "Optimize your LinkedIn profile. Structure your CV to highlight real impact. Present your experience in a way that matches your target roles." },
-  { n: "02", name: "Targeting", minutes: 10, detail: "Find high-quality roles across the right platforms. Run a simple tracker, your own mini-CRM for the search. Evaluate companies properly before you spend time on them." },
-  { n: "03", name: "Access", minutes: 10, detail: "Identify hiring managers and key stakeholders. Find contact details using LinkedIn and the right tools. Learn who's worth reaching out to and who isn't." },
-  { n: "04", name: "Leverage", minutes: 14, detail: "Build a High Value Product: a mini business case made for the specific role, so you walk in already holding a proposal. Make your application about their business, not a recap of your resume.", highlight: "Where most win or lose" },
-  { n: "05", name: "Execution", minutes: 10, detail: "Write outreach that actually gets replies. Follow up without being ignored. Treat silence like an objection, not a no. Run a simple weekly system so you stay consistent." },
+  { n: "01", name: "Positioning", minutes: 11, gets: ["LinkedIn rewrite", "Impact-first CV", "Your story for the role"] },
+  { n: "02", name: "Targeting", minutes: 10, gets: ["Target company list", "Job tracker", "Company qualifier"] },
+  { n: "03", name: "Access", minutes: 10, gets: ["Hiring manager map", "Contact-finding toolkit", "Who to skip"] },
+  { n: "04", name: "Leverage", minutes: 14, gets: ["High Value Product", "Role-specific business case"], highlight: "Where most win or lose" },
+  { n: "05", name: "Execution", minutes: 10, gets: ["Outreach scripts", "Follow-up cadence", "Weekly routine"] },
 ];
 
 const FOR = [
@@ -185,8 +186,8 @@ export default async function LandingPage() {
             </Reveal>
             <Reveal delay={150}>
               <p className="mb-10 max-w-xl text-[19px] leading-relaxed text-fg-dim sm:text-[21px]">
-                The job hunt is broken. This 5-stage system took me from{" "}
-                <span className="font-semibold text-fg">1% to 50% callbacks</span>, and it works for salespeople like you.
+                The job hunt is broken. This 5-stage system takes you from{" "}
+                <span className="font-semibold text-fg">1% to 50% callbacks</span> and it&apos;s designed for salespeople like you.
               </p>
             </Reveal>
             <Reveal delay={300}>
@@ -261,7 +262,7 @@ export default async function LandingPage() {
             </Reveal>
             <Reveal delay={150}>
               <p className="mb-5 text-[19px] leading-relaxed text-fg-dim">
-                I&apos;ve been exactly where you are. AE experience at Gartner, a track record of hitting target
+                I&apos;ve been exactly where you are. AE experience at Gartner, a track record of overachieving on target
                 and a year where I sent hundreds of applications and got two interviews. Two.
               </p>
               <p className="text-[19px] leading-relaxed text-fg-dim">
@@ -353,8 +354,7 @@ export default async function LandingPage() {
                 What you actually get
               </h2>
               <p className="mb-10 text-[19px] leading-relaxed text-fg-dim">
-                Five short, practical modules plus templates you&apos;ll use the same day. No filler, no quizzes. Just the
-                system.
+                Five short modules. Here&apos;s what you walk away with from each.
               </p>
             </Reveal>
             <div className="flex flex-col gap-6">
@@ -363,7 +363,7 @@ export default async function LandingPage() {
                   <div className="flex gap-5">
                     <span className="pt-1 text-[15px] font-bold tabular-nums text-accent">{m.n}</span>
                     <div>
-                      <h3 className="mb-1 flex flex-wrap items-center gap-3 text-[19px] font-semibold">
+                      <h3 className="flex flex-wrap items-center gap-3 text-[19px] font-semibold">
                         {m.name}
                         {m.highlight && (
                           <span className="border border-amber/60 px-2.5 py-0.5 text-[12px] font-semibold uppercase tracking-wider text-amber">
@@ -371,7 +371,17 @@ export default async function LandingPage() {
                           </span>
                         )}
                       </h3>
-                      <p className="text-[16px] leading-relaxed text-fg-dim">{m.detail}</p>
+                      <ul className="mt-2 flex flex-wrap gap-2">
+                        {m.gets.map((g) => (
+                          <li
+                            key={g}
+                            className="flex items-center gap-2 border border-line-strong bg-bg-alt px-3 py-1.5 text-[14px] text-fg-dim"
+                          >
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2b7bf6" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                            {g}
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   </div>
                 </Reveal>
@@ -412,7 +422,7 @@ export default async function LandingPage() {
             {[
               { big: <>1% → <CountUp to={50} suffix="%" /></>, small: "Application-to-interview conversion", color: "#2b7bf6" },
               { big: <><CountUp to={3} />x</>, small: "Salary conversations", color: "#f5b524" },
-              { big: "Dream roles", small: "Interviews for roles I never would have imagined", color: "#22b07d" },
+              { big: "Dream roles", small: "Interviews for roles you never would have imagined", color: "#22b07d" },
             ].map((p, i) => (
               <Reveal key={p.small} from="scale" delay={i * 150}>
                 <div
@@ -429,7 +439,7 @@ export default async function LandingPage() {
             ))}
           </div>
           <p className="mt-8 text-center text-[14px] text-fg-faint">
-            Results depend on how fully you run the system. This is what became possible, not a guarantee
+            Results depend on how fully you run the system. This is what becomes possible, not a guarantee
             of what will happen automatically.
           </p>
         </div>
@@ -490,14 +500,14 @@ export default async function LandingPage() {
           <div className="border border-accent/50 bg-bg-alt p-9 shadow-[0_40px_120px_-40px_rgba(43,123,246,0.7)] sm:p-12">
             <p className="mb-6 text-[13px] font-semibold uppercase tracking-[0.3em] text-accent">The full system</p>
             <div className="mb-8 text-[64px] font-extrabold leading-none tracking-tight">
-              €37<span className="text-[22px] font-medium text-fg-faint"> / month</span>
+              €42<span className="ml-3 text-[22px] font-medium text-fg-faint">one-time</span>
             </div>
             <ul className="mb-10 flex flex-col gap-4">
               {[
                 "All five modules: Position, Target, Access, Leverage, Execute",
                 "Templates: CV, job tracker, High Value Product, outreach scripts",
                 "Bonus: CV and Cover Letter Bot agents",
-                "Cancel anytime",
+                "Pay once, lifetime access including future updates",
               ].map((x) => (
                 <li key={x} className="flex gap-4 text-[17px] text-fg">
                   <Check />
