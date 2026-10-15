@@ -7,6 +7,16 @@ type CookieToSet = { name: string; value: string; options: CookieOptions };
 // always see an up-to-date logged-in/logged-out state. Standard Supabase +
 // Next.js App Router pattern — you shouldn't need to touch this file.
 export async function middleware(request: NextRequest) {
+  // If Supabase sends an emailed login link back to the homepage (its
+  // fallback when /auth/callback isn't on the allowed-redirects list),
+  // forward it to the callback that finishes logging in.
+  const { pathname, searchParams } = request.nextUrl;
+  if (pathname === "/" && (searchParams.has("code") || searchParams.has("token_hash"))) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/auth/callback";
+    return NextResponse.redirect(url);
+  }
+
   let response = NextResponse.next({ request });
 
   const supabase = createServerClient(

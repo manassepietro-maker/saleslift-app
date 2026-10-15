@@ -20,6 +20,9 @@ const config: Config = {
         "accent-fg": "#0b1730",
         line: "#2e2f35",
         "line-strong": "#3f4047",
+        // Highlight colors for the landing page (blue = accent above).
+        amber: "#f5b524",
+        green: "#22b07d",
         // Course player (dashboard + lesson pages) — neutral dark theme.
         "c-bg": "#1b1c20",
         "c-card": "#212226",

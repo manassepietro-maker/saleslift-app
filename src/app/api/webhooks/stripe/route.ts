@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { stripe } from "@/lib/stripe";
 import { createAdminClient } from "@/lib/supabase/server";
+import { grantAccessFromSession } from "@/lib/grant-access";
 import type Stripe from "stripe";
 
 // Stripe calls this route directly (server-to-server), never the browser —
@@ -29,19 +30,8 @@ export async function POST(req: Request) {
   const supabase = createAdminClient();
 
   if (event.type === "checkout.session.completed") {
-    const session = event.data.object as Stripe.Checkout.Session;
-    const userId = session.client_reference_id ?? session.metadata?.supabase_user_id;
-    if (userId) {
-      await supabase
-        .from("purchases")
-        .update({
-          has_access: true,
-          stripe_customer_id: session.customer as string,
-          stripe_subscription_id: session.subscription as string,
-          updated_at: new Date().toISOString(),
-        })
-        .eq("user_id", userId);
-    }
+    // Unlocks the course — and creates the account if they paid before signing up.
+    await grantAccessFromSession(event.data.object as Stripe.Checkout.Session);
   }
 
   if (event.type === "customer.subscription.deleted") {
