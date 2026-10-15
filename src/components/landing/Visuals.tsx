@@ -189,7 +189,7 @@ export function CallbackChart() {
 /* Plan: five stages along a rising, color-shifting path.                */
 /* ---------------------------------------------------------------------- */
 
-export function StagePath({ stages }: { stages: { n: string; name: string; detail: string }[] }) {
+export function StagePath({ stages }: { stages: { n: string; name: string; detail: string; outcome: string }[] }) {
   const ref = useRef<HTMLDivElement>(null);
   const visible = useInView(ref, 0.2);
   // Points on the curve where each stage sits (viewBox 1000 x 260).
@@ -231,6 +231,24 @@ export function StagePath({ stages }: { stages: { n: string; name: string; detai
             strokeWidth="5"
             strokeLinecap="round"
           />
+          {/* Start/end labels so the curve reads as "ignored → interviewing". */}
+          <text x="0" y="218" fill="#8e8f97" fontSize="15" fontWeight="600">Ignored</text>
+          <text x="1000" y="8" fill="#22b07d" fontSize="15" fontWeight="700" textAnchor="end">Interviewing</text>
+          {/* Dashed connectors from each diamond down to its card. */}
+          {points.map(([x, y], i) => (
+            <line
+              key={`c${i}`}
+              x1={x}
+              y1={y + 20}
+              x2={x}
+              y2={260}
+              stroke={STAGE_COLORS[i]}
+              strokeOpacity={0.5}
+              strokeWidth="1.5"
+              strokeDasharray="4 5"
+              style={{ transition: `opacity 0.6s ${0.9 + i * 0.3}s`, opacity: visible ? 1 : 0 }}
+            />
+          ))}
           {points.map(([x, y], i) => (
             <g
               key={i}
@@ -241,11 +259,16 @@ export function StagePath({ stages }: { stages: { n: string; name: string; detai
             </g>
           ))}
         </svg>
-        <div className="mt-8 grid grid-cols-5 gap-5">
+        {/* No grid gap: each column is exactly 20% wide, so card centers sit under the diamonds. */}
+        <div className="grid grid-cols-5">
           {stages.map((s, i) => (
-            <Reveal key={s.n} delay={700 + i * 200}>
+            <Reveal key={s.n} delay={700 + i * 200} className="flex flex-col px-2.5">
+              <span
+                className="mx-auto h-8 w-px"
+                style={{ background: `repeating-linear-gradient(${STAGE_COLORS[i]}80 0 4px, transparent 4px 9px)` }}
+              />
               <div
-                className="h-full rounded-xl border bg-bg-alt p-5"
+                className="flex flex-1 flex-col rounded-xl border bg-bg-alt p-5"
                 style={{
                   borderColor: `${STAGE_COLORS[i]}55`,
                   background: `linear-gradient(160deg, ${STAGE_COLORS[i]}1f, #212226 55%)`,
@@ -255,7 +278,11 @@ export function StagePath({ stages }: { stages: { n: string; name: string; detai
                   Stage {s.n}
                 </p>
                 <h3 className="mb-2 text-[20px] font-bold text-fg">{s.name}</h3>
-                <p className="text-[15px] leading-relaxed text-fg-dim">{s.detail}</p>
+                <p className="mb-5 flex-1 text-[15px] leading-relaxed text-fg-dim">{s.detail}</p>
+                <div className="border-t border-line pt-4">
+                  <p className="mb-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-fg-faint">You walk away with</p>
+                  <p className="text-[15px] font-semibold" style={{ color: STAGE_COLORS[i] }}>{s.outcome}</p>
+                </div>
               </div>
             </Reveal>
           ))}
@@ -274,7 +301,8 @@ export function StagePath({ stages }: { stages: { n: string; name: string; detai
               Stage {s.n}
             </p>
             <h3 className="mb-1 text-[20px] font-bold text-fg">{s.name}</h3>
-            <p className="text-[16px] leading-relaxed text-fg-dim">{s.detail}</p>
+            <p className="mb-2 text-[16px] leading-relaxed text-fg-dim">{s.detail}</p>
+            <p className="text-[15px] font-semibold" style={{ color: STAGE_COLORS[i] }}>→ {s.outcome}</p>
           </Reveal>
         ))}
       </ol>
@@ -335,15 +363,10 @@ export function ModuleStack({ modules }: { modules: { n: string; name: string; m
 /* Vision: the inbox that's waiting.                                      */
 /* ---------------------------------------------------------------------- */
 
-export function InboxMock({ items }: { items: string[] }) {
-  const senders = [
-    { name: "Head of Sales", color: "#2b7bf6" },
-    { name: "VP Sales", color: "#f5b524" },
-    { name: "Talent Partner", color: "#22b07d" },
-    { name: "Hiring Manager", color: "#4f9bff" },
-  ];
-  const times = ["9:12", "11:40", "14:05", "16:30"];
+export type InboxEmail = { from: string; subject: string; preview: string; time: string; color: string };
 
+// Emails are shown in the order given — pass newest first, like a real inbox.
+export function InboxMock({ emails }: { emails: InboxEmail[] }) {
   return (
     <div className="relative">
       <div className="absolute -inset-10 bg-[radial-gradient(closest-side,rgba(34,176,125,0.18),transparent)]" />
@@ -353,26 +376,32 @@ export function InboxMock({ items }: { items: string[] }) {
           <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
           <span className="h-3 w-3 rounded-full bg-[#28c840]" />
           <span className="ml-3 text-[14px] font-semibold text-fg">Inbox</span>
-          <span className="ml-auto rounded-full bg-accent px-2.5 py-0.5 text-[12px] font-bold text-accent-fg">4 new</span>
+          <span className="ml-auto rounded-full bg-accent px-2.5 py-0.5 text-[12px] font-bold text-accent-fg">
+            {emails.length} new
+          </span>
         </div>
-        {items.map((text, i) => (
-          <Reveal key={text} from="up" delay={i * 160}>
+        {emails.map((e, i) => (
+          <Reveal key={e.subject} from="up" delay={i * 160}>
             <div className="flex gap-4 border-b border-line px-5 py-4 last:border-b-0">
               <span
                 className="mt-1 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full text-[13px] font-bold"
-                style={{ background: `${senders[i % 4].color}26`, color: senders[i % 4].color }}
+                style={{ background: `${e.color}26`, color: e.color }}
               >
-                {senders[i % 4].name
+                {e.from
                   .split(" ")
                   .map((w) => w[0])
                   .join("")}
               </span>
               <div className="min-w-0 flex-1">
                 <div className="flex items-baseline justify-between gap-3">
-                  <span className="truncate text-[15px] font-semibold text-fg">{senders[i % 4].name}</span>
-                  <span className="flex-shrink-0 text-[12px] text-fg-faint">{times[i % 4]}</span>
+                  <span className="flex min-w-0 items-center gap-2">
+                    <span className="h-2 w-2 flex-shrink-0 rounded-full bg-accent" aria-label="Unread" />
+                    <span className="truncate text-[15px] font-semibold text-fg">{e.from}</span>
+                  </span>
+                  <span className="flex-shrink-0 text-[12px] tabular-nums text-fg-faint">{e.time}</span>
                 </div>
-                <p className="text-[15px] leading-snug text-fg-dim">{text}</p>
+                <p className="truncate text-[15px] font-semibold text-fg">{e.subject}</p>
+                <p className="line-clamp-2 text-[14px] leading-snug text-fg-faint">{e.preview}</p>
               </div>
             </div>
           </Reveal>

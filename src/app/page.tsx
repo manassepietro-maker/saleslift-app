@@ -39,19 +39,45 @@ const NEW_WAY = [
   "Pursue low-noise channels to stand out",
 ];
 
+// Each stage: what you do, and what you walk away with.
 const STAGES = [
-  { n: "01", name: "Position", detail: "Learn how to brand your experience in a way that is unignorable." },
-  { n: "02", name: "Target", detail: "Find the right company and position for you, so you won't be leaving one year later." },
-  { n: "03", name: "Access", detail: "Go through the right channels, where you stand out from a sea of sameness." },
-  { n: "04", name: "Leverage", detail: "Show them you are the only option for the job instead of relying on a bot scanning your CV." },
-  { n: "05", name: "Execute", detail: "Use a sustainable playbook so you're not tempted to cut corners later on." },
+  { n: "01", name: "Position", detail: "Rewrite your CV and LinkedIn so your results show in the first 10 seconds.", outcome: "An impact-first CV" },
+  { n: "02", name: "Target", detail: "Pick the companies worth your time and qualify them like you'd qualify a lead.", outcome: "Your target list" },
+  { n: "03", name: "Access", detail: "Find the actual hiring manager and skip the queue of applications.", outcome: "Direct contacts" },
+  { n: "04", name: "Leverage", detail: "Build a one-page business case for the role, so you arrive with a plan, not just a CV.", outcome: "Your High Value Product" },
+  { n: "05", name: "Execute", detail: "Run outreach and follow-ups on a simple weekly rhythm.", outcome: "Interviews on your calendar" },
 ];
 
-const VISION = [
-  "Hiring managers chasing you, not the other way around.",
-  "Leading the interview process instead of being interviewed.",
-  "Choosing between more options, not chasing one callback.",
-  "Negotiating the salary you want from a position of power.",
+// The inbox that's waiting — newest email first, like a real inbox.
+const INBOX = [
+  {
+    from: "Hiring Manager",
+    subject: "Offer — let's talk numbers",
+    preview: "We'd love to have you on the team. Before we send the paperwork, what base would make this an easy yes for you?",
+    time: "16:30",
+    color: "#22b07d",
+  },
+  {
+    from: "Talent Partner",
+    subject: "Final round — does Thursday work?",
+    preview: "The panel was impressed with your territory plan. Are you free Thursday at 10:00 to meet the CRO?",
+    time: "14:05",
+    color: "#f5b524",
+  },
+  {
+    from: "VP Sales",
+    subject: "Re: Your business case for the mid-market team",
+    preview: "Really sharp breakdown of where our next deals could come from. Can we grab 30 minutes this week?",
+    time: "11:40",
+    color: "#4f9bff",
+  },
+  {
+    from: "Head of Sales",
+    subject: "Quick chat about our AE opening?",
+    preview: "Thanks for reaching out directly — we're hiring two AEs and your background stood out. Free for a call tomorrow?",
+    time: "9:12",
+    color: "#2b7bf6",
+  },
 ];
 
 const MODULES = [
@@ -278,16 +304,14 @@ export default async function LandingPage() {
         <div className="relative mx-auto max-w-7xl">
           <Reveal className="mb-14 text-center">
             <Eyebrow>Your plan</Eyebrow>
-            <h2 className="text-[38px] font-extrabold tracking-tight sm:text-[54px]">
-              Five stages. <span className="text-accent">One pipeline.</span>
+            <h2 className="mb-5 text-[38px] font-extrabold tracking-tight sm:text-[54px]">
+              From ignored to <span className="text-green">interviewing.</span>
             </h2>
-          </Reveal>
-          <StagePath stages={STAGES} />
-          <Reveal className="mt-14 text-center">
-            <p className="text-[17px] text-fg-faint">
-              Each stage builds on the last. Skip one and the rest gets harder — same as any pipeline.
+            <p className="mx-auto max-w-2xl text-[19px] text-fg-dim">
+              Five stages, each building on the last — the same way you&apos;d work a pipeline.
             </p>
           </Reveal>
+          <StagePath stages={STAGES} />
         </div>
       </section>
 
@@ -345,7 +369,7 @@ export default async function LandingPage() {
               </p>
             </Reveal>
           </div>
-          <InboxMock items={VISION} />
+          <InboxMock emails={INBOX} />
         </div>
       </section>
 
