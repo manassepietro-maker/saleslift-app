@@ -18,7 +18,15 @@ export const ROLES = [
   "Customer Success",
 ];
 
-// The 3 biggest problems, each pointing to the stage(s) that fix it.
+// Home page (version A) pain list.
+export const PAIN_POINTS = [
+  "You've sent fifty applications and heard back from one.",
+  "You're hitting your numbers at work, but your CV gets ignored.",
+  "You get rejected in minutes, by software, before a human ever reads your name.",
+  "Every job-search tip you find is generic, written for people who've never had to sell anything.",
+];
+
+// /v2 (version B): the 3 biggest problems, each pointing to the stage(s) that fix it.
 export const PROBLEMS = [
   { text: "Your CV gets ignored, even when you're hitting your numbers.", fixedBy: ["01 Position"] },
   { text: "You apply everywhere and hear back from almost no one.", fixedBy: ["02 Target", "05 Execute"] },
@@ -154,3 +162,8 @@ export const FAQ = [
   { q: "I've tried job search courses before and they didn't work.", a: "Most job search content is written for generalists. It doesn't use what you already know how to do. SalesLift is built specifically around sales instincts you already have." },
   { q: "What happens if I want continued support once I book the interview?", a: "You have the option to book live 1:1 sessions for coaching if you want to master the interview process." },
 ];
+
+// Version A shows these three on the home page; /v2 shows the first four of FAQ.
+export const FAQ_HOME_A = FAQ.filter((f) =>
+  ["How long until I see results?", "Will this work outside SaaS/tech sales?", "What if I'm employed and searching quietly?"].includes(f.q)
+);

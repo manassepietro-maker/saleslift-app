@@ -3,17 +3,18 @@ import { Logo } from "@/components/Logo";
 
 // Shared header, footer and small pieces for the public marketing pages.
 
-export function SiteHeader() {
+// `home` is the landing page the in-page links point to ("/" or "/v2").
+export function SiteHeader({ home = "/" }: { home?: string }) {
   const link = "text-fg-dim no-underline hover:text-fg";
   return (
     <header className="sticky top-0 z-30 border-b border-line bg-bg/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
         <Logo />
         <nav className="flex items-center gap-6 text-[16px] sm:gap-8">
-          <Link href="/#how-it-works" className={`hidden md:inline ${link}`}>How it works</Link>
+          <Link href={`${home}#how-it-works`} className={`hidden md:inline ${link}`}>How it works</Link>
           <Link href="/curriculum" className={`hidden md:inline ${link}`}>Curriculum</Link>
           <Link href="/story" className={`hidden md:inline ${link}`}>Story</Link>
-          <Link href="/#pricing" className={`hidden md:inline ${link}`}>Pricing</Link>
+          <Link href={`${home}#pricing`} className={`hidden md:inline ${link}`}>Pricing</Link>
           <Link href="/login" className="text-fg no-underline hover:opacity-80">Log in</Link>
         </nav>
       </div>
