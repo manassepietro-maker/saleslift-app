@@ -18,11 +18,19 @@ export const ROLES = [
   "Customer Success",
 ];
 
-export const PAIN_POINTS = [
-  "You've sent fifty applications and heard back from one.",
-  "You're hitting your numbers at work, but your CV gets ignored.",
-  "You get rejected in minutes, by software, before a human ever reads your name.",
-  "Every job-search tip you find is generic, written for people who've never had to sell anything.",
+// The 3 biggest problems, each pointing to the stage(s) that fix it.
+export const PROBLEMS = [
+  { text: "Your CV gets ignored, even when you're hitting your numbers.", fixedBy: ["01 Position"] },
+  { text: "You apply everywhere and hear back from almost no one.", fixedBy: ["02 Target", "05 Execute"] },
+  { text: "Software rejects you before a human ever reads your name.", fixedBy: ["03 Access", "04 Leverage"] },
+];
+
+// "Who it's for": situations people can recognize themselves in.
+export const ARCHETYPES = [
+  { title: "Breaking into sales", text: "You're coming from another field and want your first SDR or BDR role." },
+  { title: "Ready to move up", text: "You're an SDR or BDR who's ready to start closing as an AE." },
+  { title: "AE aiming higher", text: "You're closing deals and want a better company, territory or paycheck." },
+  { title: "Back on the market", text: "You were laid off or your startup ended, and you need interviews fast." },
 ];
 
 // The five stages, in plain language: what the stage gets you to do, and
@@ -75,10 +83,18 @@ export const MODULE_DELIVERABLES: Record<string, string[]> = {
 };
 
 export const INCLUDED = [
-  "All five modules, about an hour of lessons",
-  "Templates: CV, job tracker, High Value Product, outreach scripts",
-  "Bonus: CV and Cover Letter Bot agents",
-  "Pay once, lifetime access including future updates",
+  "5 modules, about an hour of lessons",
+  "4 ready-to-use templates",
+  "Instant access right after you pay",
+  "Lifetime access, including future updates",
+];
+
+// The full offer breakdown: every template and what it does for you.
+export const TEMPLATES = [
+  { name: "CV template", text: "An impact-first structure recruiters can scan in seconds." },
+  { name: "Job tracker", text: "Every company, contact and follow-up in one simple spreadsheet." },
+  { name: "High Value Product template", text: "A one-page business case you adapt for each role." },
+  { name: "Outreach scripts", text: "First messages and follow-ups that get replies." },
 ];
 
 // The inbox that's waiting: newest email first, like a real inbox.
@@ -125,11 +141,15 @@ export const NOT_FOR = [
   "You're not currently able to spend a few focused hours a week on your search",
 ];
 
+// The first four are the buying questions, shown on the home page.
 export const FAQ = [
+  { q: "How do I access the course?", a: "Right after you pay, your account is created and you're logged straight in. After that, log in from any device with your email." },
+  { q: "What do I need to get started?", a: "Nothing. You don't even need a CV or a LinkedIn profile yet. The course helps you build both." },
+  { q: "Why does it cost €42?", a: "It's one payment for a focused course you can finish in an afternoon, not a months-long bootcamp. You keep access forever, including every update." },
+  { q: "Is this a subscription?", a: "No. You pay €42 once and keep access forever, including future updates." },
   { q: "How long until I see results?", a: "Most people start getting responses within the first two weeks of running Access and Execute consistently." },
   { q: "Will this work outside SaaS/tech sales?", a: "This methodology is built for SaaS sales but the framework can be scaled to any industry." },
   { q: "What if I'm employed and searching quietly?", a: "The system works discreetly: targeting, access, and outreach are built to be low-visibility if you need them to be." },
-  { q: "Is this a subscription?", a: "No. You pay €42 once and keep access forever, including future updates." },
   { q: "How long does the course take?", a: "About an hour of lessons in total, split into five short modules. The real work is applying it, and the templates make that faster." },
   { q: "I've tried job search courses before and they didn't work.", a: "Most job search content is written for generalists. It doesn't use what you already know how to do. SalesLift is built specifically around sales instincts you already have." },
   { q: "What happens if I want continued support once I book the interview?", a: "You have the option to book live 1:1 sessions for coaching if you want to master the interview process." },

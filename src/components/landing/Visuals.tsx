@@ -48,14 +48,28 @@ export function RejectionEmail() {
 /* Uses the same segmented blocks as the course cards further down.      */
 /* ---------------------------------------------------------------------- */
 
-export function PainSection({ points }: { points: string[] }) {
+export function PainSection({ problems }: { problems: { text: string; fixedBy: string[] }[] }) {
   return (
     <div className="grid items-center gap-12 lg:grid-cols-2 [&>*]:min-w-0">
       <ul className="border-t border-line">
-        {points.map((p, i) => (
-          <Reveal as="li" key={p} delay={i * 90} className="flex gap-5 border-b border-line py-5">
+        {problems.map((p, i) => (
+          <Reveal as="li" key={p.text} delay={i * 100} className="flex gap-5 border-b border-line py-6">
             <span className="pt-1 text-[14px] font-bold tabular-nums text-fg-faint">0{i + 1}</span>
-            <span className="text-[18px] leading-relaxed text-fg sm:text-[19px]">{p}</span>
+            <div>
+              <p className="mb-3 text-[19px] font-semibold leading-snug text-fg sm:text-[21px]">{p.text}</p>
+              <p className="flex flex-wrap items-center gap-2 text-[13px] text-fg-faint">
+                Fixed in
+                {p.fixedBy.map((stage) => (
+                  <a
+                    key={stage}
+                    href="#how-it-works"
+                    className="border border-accent/40 bg-accent/10 px-2.5 py-1 font-semibold text-accent no-underline hover:border-accent"
+                  >
+                    Stage {stage}
+                  </a>
+                ))}
+              </p>
+            </div>
           </Reveal>
         ))}
       </ul>

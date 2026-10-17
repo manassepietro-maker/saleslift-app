@@ -38,7 +38,7 @@ export default async function PricingPage() {
           <ul className="mb-10 flex flex-col gap-3 text-[17px] text-fg">
             <li>✓ All five modules, lifetime access</li>
             <li>✓ Templates for every stage</li>
-            <li>✓ Bonus: CV and Cover Letter Bot agents</li>
+            <li>✓ 4 ready-to-use templates</li>
             <li>✓ Pay once, including future updates</li>
           </ul>
           {hasAccess ? (
