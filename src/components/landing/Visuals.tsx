@@ -3,58 +3,43 @@
 import { useEffect, useRef, useState } from "react";
 import { Reveal, useInView, CountUp } from "./Reveal";
 
-export const STAGE_COLORS = ["#2b7bf6", "#4f9bff", "#f5b524", "#9ccf4a", "#22b07d"];
+import { STAGE_COLORS } from "@/lib/content/landing";
+export { STAGE_COLORS };
 
 /* ---------------------------------------------------------------------- */
-/* Hero: a job search turning into a pipeline, shown as floating cards.     */
+/* Pain: the auto-rejection email everyone has received.                 */
 /* ---------------------------------------------------------------------- */
 
-const HERO_CARDS = [
-  { tag: "Application #48", text: "No reply after 3 weeks", color: "#6b6c74", muted: true },
-  { tag: "Hiring manager replied", text: "“Let’s talk on Thursday.”", color: "#2b7bf6" },
-  { tag: "Interview booked", text: "Thu · 10:00 · Video call", color: "#f5b524" },
-  { tag: "Offer received", text: "Time to negotiate", color: "#22b07d" },
-];
-
-export function HeroCards() {
+export function RejectionEmail() {
   return (
-    <div className="relative mx-auto w-full max-w-[440px]">
-      <div className="animate-glow absolute -inset-10 rounded-full bg-[radial-gradient(closest-side,rgba(43,123,246,0.35),transparent)]" />
-      <div className="relative flex flex-col gap-4">
-        {HERO_CARDS.map((c, i) => (
-          <Reveal key={c.tag} from="right" delay={250 + i * 180}>
-            <div
-              className={`animate-float ${i % 2 ? "ml-6 sm:ml-10" : "mr-6 sm:mr-0"}`}
-              style={{ animationDelay: `${i * 0.7}s` }}
-            >
-              <div
-                className={`flex items-center gap-4 rounded-xl border bg-bg-alt/90 px-5 py-4 shadow-2xl backdrop-blur ${
-                  c.muted ? "border-line opacity-60" : "border-line-strong"
-                }`}
-                style={c.muted ? undefined : { boxShadow: `0 20px 50px -20px ${c.color}66` }}
-              >
-                <span
-                  className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full"
-                  style={{ background: `${c.color}22`, color: c.color }}
-                >
-                  {c.muted ? (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="6" y1="6" x2="18" y2="18" /><line x1="18" y1="6" x2="6" y2="18" /></svg>
-                  ) : (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
-                  )}
-                </span>
-                <div className="min-w-0">
-                  <p className="text-[13px] font-semibold uppercase tracking-wider" style={{ color: c.muted ? undefined : c.color }}>
-                    {c.tag}
-                  </p>
-                  <p className={`truncate text-[16px] ${c.muted ? "text-fg-faint line-through" : "text-fg"}`}>{c.text}</p>
-                </div>
-              </div>
+    <Reveal from="right">
+      <div className="border border-line-strong bg-bg-alt">
+        <div className="flex items-center justify-between gap-4 border-b border-line px-6 py-4">
+          <div className="flex min-w-0 items-center gap-3">
+            <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white/5 text-[13px] font-bold text-fg-faint">
+              TA
+            </span>
+            <div className="min-w-0">
+              <p className="truncate text-[15px] font-semibold text-fg">Talent Acquisition Team</p>
+              <p className="truncate text-[13px] text-fg-faint">no-reply@careers</p>
             </div>
-          </Reveal>
-        ))}
+          </div>
+          <span className="flex-shrink-0 text-[13px] tabular-nums text-fg-faint">03:14</span>
+        </div>
+        <div className="px-6 py-5">
+          <p className="mb-3 text-[17px] font-semibold text-fg">Your application for Account Executive</p>
+          <p className="mb-3 text-[15px] leading-relaxed text-fg-dim">
+            Thank you for your interest. After careful review, we have decided to move forward with other candidates
+            whose experience more closely matches our requirements.
+          </p>
+          <p className="text-[15px] leading-relaxed text-fg-dim">We will keep your details on file for future opportunities.</p>
+        </div>
+        <div className="flex items-center gap-2 border-t border-red-500/20 bg-red-500/10 px-6 py-3 text-[14px] text-red-300">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><circle cx="12" cy="12" r="9" /><polyline points="12 7 12 12 15 14" /></svg>
+          Sent 2 minutes after you applied. No human read it.
+        </div>
       </div>
-    </div>
+    </Reveal>
   );
 }
 
@@ -64,10 +49,6 @@ export function HeroCards() {
 /* ---------------------------------------------------------------------- */
 
 export function PainSection({ points }: { points: string[] }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const visible = useInView(ref);
-  const REPLY = 37; // which of the 50 squares is the single reply
-
   return (
     <div className="grid items-center gap-12 lg:grid-cols-2 [&>*]:min-w-0">
       <ul className="border-t border-line">
@@ -78,39 +59,49 @@ export function PainSection({ points }: { points: string[] }) {
           </Reveal>
         ))}
       </ul>
-
-      <Reveal from="right">
-        <div ref={ref} className="border border-line-strong bg-bg-alt p-7 sm:p-9">
-          <div className="mb-8 grid grid-cols-2 gap-6 border-b border-line pb-7">
-            <div>
-              <p className="text-[48px] font-extrabold leading-none tracking-tight text-fg">
-                <CountUp to={50} />
-              </p>
-              <p className="mt-2 text-[15px] text-fg-faint">Applications sent</p>
-            </div>
-            <div>
-              <p className="text-[48px] font-extrabold leading-none tracking-tight text-accent">
-                <CountUp to={1} />
-              </p>
-              <p className="mt-2 text-[15px] text-fg-faint">Reply</p>
-            </div>
-          </div>
-          <div className="grid grid-cols-10 gap-[6px]">
-            {Array.from({ length: 50 }).map((_, k) => (
-              <span
-                key={k}
-                className="aspect-square transition-colors duration-300"
-                style={{
-                  background: !visible ? "#2a2b30" : k === REPLY ? "#2b7bf6" : "#3a3b42",
-                  transitionDelay: `${200 + k * 25}ms`,
-                }}
-              />
-            ))}
-          </div>
-          <p className="mt-6 text-[15px] text-fg-faint">Each square is one application. One got a reply.</p>
-        </div>
-      </Reveal>
+      <RejectionEmail />
     </div>
+  );
+}
+
+// 50 applications → 1 reply, as a grid of squares (used on /story).
+export function ApplicationsGrid() {
+  const ref = useRef<HTMLDivElement>(null);
+  const visible = useInView(ref);
+  const REPLY = 37; // which of the 50 squares is the single reply
+
+  return (
+    <Reveal from="right">
+      <div ref={ref} className="border border-line-strong bg-bg-alt p-7 sm:p-9">
+        <div className="mb-8 grid grid-cols-2 gap-6 border-b border-line pb-7">
+          <div>
+            <p className="text-[48px] font-extrabold leading-none tracking-tight text-fg">
+              <CountUp to={50} />
+            </p>
+            <p className="mt-2 text-[15px] text-fg-faint">Applications sent</p>
+          </div>
+          <div>
+            <p className="text-[48px] font-extrabold leading-none tracking-tight text-accent">
+              <CountUp to={1} />
+            </p>
+            <p className="mt-2 text-[15px] text-fg-faint">Reply</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-10 gap-[6px]">
+          {Array.from({ length: 50 }).map((_, k) => (
+            <span
+              key={k}
+              className="aspect-square transition-colors duration-300"
+              style={{
+                background: !visible ? "#2a2b30" : k === REPLY ? "#2b7bf6" : "#3a3b42",
+                transitionDelay: `${200 + k * 25}ms`,
+              }}
+            />
+          ))}
+        </div>
+        <p className="mt-6 text-[15px] text-fg-faint">Each square is one application. One got a reply.</p>
+      </div>
+    </Reveal>
   );
 }
 
@@ -200,7 +191,7 @@ function useScrollProgress(ref: React.RefObject<HTMLElement>, span: "screen" | "
   return progress;
 }
 
-export function StagePath({ stages }: { stages: { n: string; name: string; detail: string; outcome: string }[] }) {
+export function StagePath({ stages }: { stages: { n: string; name: string; headline: string; detail: string; outcome: string }[] }) {
   const desktopRef = useRef<HTMLDivElement>(null);
   const mobileRef = useRef<HTMLOListElement>(null);
   const progress = useScrollProgress(desktopRef);
@@ -302,10 +293,10 @@ export function StagePath({ stages }: { stages: { n: string; name: string; detai
                   background: `linear-gradient(160deg, ${STAGE_COLORS[i]}1f, #212226 55%)`,
                 }}
               >
-                <p className="mb-2 text-[12px] font-semibold uppercase tracking-[0.25em]" style={{ color: STAGE_COLORS[i] }}>
-                  Stage {s.n}
+                <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.25em]" style={{ color: STAGE_COLORS[i] }}>
+                  {s.n} · {s.name}
                 </p>
-                <h3 className="mb-2 text-[20px] font-bold text-fg">{s.name}</h3>
+                <h3 className="mb-2 text-[19px] font-bold leading-snug text-fg">{s.headline}</h3>
                 <p className="mb-5 flex-1 text-[15px] leading-relaxed text-fg-dim">{s.detail}</p>
                 <div className="border-t border-line pt-4">
                   <p className="mb-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-fg-faint">You walk away with</p>
@@ -334,64 +325,15 @@ export function StagePath({ stages }: { stages: { n: string; name: string; detai
             >
               <span className="absolute -left-[9px] top-1.5 h-4 w-4 rotate-45" style={{ background: STAGE_COLORS[i] }} />
               <p className="mb-1 text-[12px] font-semibold uppercase tracking-[0.25em]" style={{ color: STAGE_COLORS[i] }}>
-                Stage {s.n}
+                {s.n} · {s.name}
               </p>
-              <h3 className="mb-1 text-[20px] font-bold text-fg">{s.name}</h3>
+              <h3 className="mb-1 text-[20px] font-bold text-fg">{s.headline}</h3>
               <p className="mb-2 text-[16px] leading-relaxed text-fg-dim">{s.detail}</p>
               <p className="text-[15px] font-semibold" style={{ color: STAGE_COLORS[i] }}>→ {s.outcome}</p>
             </li>
           );
         })}
       </ol>
-    </div>
-  );
-}
-
-/* ---------------------------------------------------------------------- */
-/* What you get: stacked module cards with segmented progress bars.       */
-/* ---------------------------------------------------------------------- */
-
-export function ModuleStack({ modules }: { modules: { n: string; name: string; minutes: number }[] }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const visible = useInView(ref);
-  const fills = [17, 9, 5, 3, 1]; // filled segments out of 22, per card
-
-  return (
-    <div ref={ref} className="relative">
-      <div className="animate-glow absolute -left-10 -top-10 h-64 w-64 bg-[radial-gradient(closest-side,rgba(43,123,246,0.45),transparent)]" />
-      <div className="absolute -right-6 top-24 hidden h-40 w-28 bg-white/[0.03] sm:block" />
-      <div className="relative flex flex-col gap-3">
-        {modules.map((m, i) => (
-          <Reveal key={m.n} from="left" delay={i * 140}>
-            <div
-              className="border border-line-strong px-6 py-5"
-              style={{
-                background:
-                  i === 0 ? "linear-gradient(120deg, #1f5fc4 0%, #2b7bf6 35%, #212226 85%)" : "#212226",
-              }}
-            >
-              <div className="mb-4 flex items-baseline justify-between gap-4">
-                <span className={`text-[19px] font-semibold sm:text-[21px] ${i === 0 ? "text-white" : "text-fg"}`}>
-                  {m.name}
-                </span>
-                <span className="text-[14px] text-fg-dim">{m.minutes} min</span>
-              </div>
-              <div className="flex gap-[5px]">
-                {Array.from({ length: 22 }).map((_, k) => (
-                  <span
-                    key={k}
-                    className="h-[9px] flex-1 transition-colors duration-300"
-                    style={{
-                      background: visible && k < fills[i] ? (i === 0 ? "#3d8bff" : "#8e8f97") : "#34353b",
-                      transitionDelay: `${300 + i * 140 + k * 45}ms`,
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-          </Reveal>
-        ))}
-      </div>
     </div>
   );
 }
