@@ -3,7 +3,7 @@ import { Logo } from "@/components/Logo";
 
 // Shared header, footer and small pieces for the public marketing pages.
 
-// `home` is the landing page the in-page links point to ("/" or "/v2").
+// `home` is the landing page the in-page links point to ("/" or "/v1").
 export function SiteHeader({ home = "/" }: { home?: string }) {
   const link = "text-fg-dim no-underline hover:text-fg";
   return (

@@ -18,7 +18,7 @@ export const ROLES = [
   "Customer Success",
 ];
 
-// Home page (version A) pain list.
+// /v1 (version A) pain list.
 export const PAIN_POINTS = [
   "You've sent fifty applications and heard back from one.",
   "You're hitting your numbers at work, but your CV gets ignored.",
@@ -26,7 +26,7 @@ export const PAIN_POINTS = [
   "Every job-search tip you find is generic, written for people who've never had to sell anything.",
 ];
 
-// /v2 (version B): the 3 biggest problems, each pointing to the stage(s) that fix it.
+// Home page: the 3 biggest problems, each pointing to the stage(s) that fix it.
 export const PROBLEMS = [
   { text: "Your CV gets ignored, even when you're hitting your numbers.", fixedBy: ["01 Position"] },
   { text: "You apply everywhere and hear back from almost no one.", fixedBy: ["02 Target", "05 Execute"] },
@@ -163,7 +163,7 @@ export const FAQ = [
   { q: "What happens if I want continued support once I book the interview?", a: "You have the option to book live 1:1 sessions for coaching if you want to master the interview process." },
 ];
 
-// Version A shows these three on the home page; /v2 shows the first four of FAQ.
+// /v1 (version A) shows these three; the home page shows the first four of FAQ.
 export const FAQ_HOME_A = FAQ.filter((f) =>
   ["How long until I see results?", "Will this work outside SaaS/tech sales?", "What if I'm employed and searching quietly?"].includes(f.q)
 );
