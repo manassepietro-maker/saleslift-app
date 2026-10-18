@@ -8,20 +8,22 @@
 // full CMS. Swap in real screenshots by dropping files into
 // /public/images/<slug>/ and pointing an "image" block at them.
 
+// Text in "p", "list", "ol" and "callout" blocks can contain links written
+// as [label](https://example.com).
 export type ContentBlock =
   | { type: "p"; text: string }
   | { type: "h3"; text: string }
   | { type: "image"; src: string; alt: string; caption?: string }
   | { type: "list"; items: string[] }
+  | { type: "ol"; items: string[] }
   | { type: "callout"; text: string }
+  | { type: "example"; label: string; text: string }
   | { type: "link"; href: string; label: string };
 
-export type Template = {
-  label: string;
-  // Path under /public/templates/. Replace these placeholder files with
-  // your real templates before launch (see /public/templates/README.md).
-  file: string;
-};
+// A downloadable or copyable resource shown as a button at the end of a
+// lesson. Leave `href` empty until the real link exists: the button then
+// shows "Coming soon" instead of a broken link.
+export type Resource = { label: string; href: string };
 
 export type Module = {
   slug: string;
@@ -29,9 +31,12 @@ export type Module = {
   title: string;
   oneLiner: string;
   estimatedMinutes: number;
+  // Marketing summary used on /curriculum (not shown inside the lesson).
   summary: string;
+  // Lesson video (YouTube unlisted / Loom / Mux / Vimeo embed URL). Empty shows a placeholder.
+  videoUrl: string;
   body: ContentBlock[];
-  templates: Template[];
+  resources: Resource[];
 };
 
 export const WELCOME = {
@@ -52,11 +57,20 @@ export const WELCOME = {
     {
       type: "list",
       items: [
+        "Each lesson has a video and a written part. The video shows you a practical example, while the text holds the step-by-step plan and content.",
         "Focus on one module at a time, in order. Each builds on the last.",
         "Apply what you learn immediately. Don't stockpile knowledge, use it on your next application.",
         "Keep your process simple. The tracker template is there to reduce your mental load, not add to it.",
         "Track what works and adjust.",
       ],
+    },
+    {
+      type: "h3",
+      text: "The key mindset: relevancy",
+    },
+    {
+      type: "p",
+      text: "The key to this course is adopting a mindset of relevancy. We have to be relevant to the jobs we want and are applying to. While some guiding principles always stay true, what's even more important is recognizing the key dimensions of the organization and role you're applying to, so you can match them.",
     },
     {
       type: "callout",
@@ -108,23 +122,34 @@ export const MODULES: Module[] = [
     title: "Position",
     oneLiner: "Make a strong impression before you even apply.",
     estimatedMinutes: 11,
-    summary:
+    summary: 
       "Optimize your LinkedIn profile, restructure your CV around real impact, and frame your experience to match the roles you actually want, so the first ten seconds someone spends on your application work in your favor.",
+    videoUrl: "",
     body: [
+      { type: "p", text: "Before you send a single application, the way you're positioned decides most of what happens next." },
       {
         type: "p",
-        text: "Before you send a single application, the way you're positioned decides most of what happens next. This is the equivalent of the opening of a case you'd make for a deal, before anyone's agreed to listen. Get it wrong and everything downstream gets harder.",
+        text: "Positioning means controlling the first ten-second impression that you give a hiring manager or recruiter (or an ATS screening system). This is where the majority of candidates get filtered out. Important points to focus on:",
+      },
+      {
+        type: "list",
+        items: [
+          "Optimize your LinkedIn profile",
+          "Restructure your CV around real impact, and frame your experience to match the roles you actually want",
+          "LinkedIn content (if you post)",
+        ],
       },
       { type: "h3", text: "Your LinkedIn profile" },
+      { type: "p", text: "Consider all the sections that make up your LinkedIn profile:" },
       {
-        type: "p",
-        text: "Most salespeople's LinkedIn reads like a job description, not a track record. Rewrite your headline and About section around outcomes: quota attainment, deal sizes, what you actually moved. Recruiters and hiring managers skim. Give them numbers to skim.",
-      },
-      {
-        type: "image",
-        src: "/images/position/linkedin-before-after.png",
-        alt: "Before and after example of a LinkedIn headline rewrite",
-        caption: "Replace this placeholder with a real before/after screenshot.",
+        type: "list",
+        items: [
+          "Profile photo & background",
+          "Headline",
+          "About you section",
+          "Experience",
+          "Posts (bonus): see the influencers I recommend",
+        ],
       },
       { type: "h3", text: "Your CV" },
       {
@@ -133,15 +158,15 @@ export const MODULES: Module[] = [
           "Lead every bullet with the result, not the responsibility.",
           "Quantify: quota %, deal size, sales cycle length, retention/expansion, whatever you actually have.",
           "Cut anything that doesn't support the specific role you're applying to. A CV is not an autobiography.",
+          "Try to keep it to one page. Only go over if there's too much relevant information you should include.",
+          "Match the keywords of the application in every section (i.e. also in the tech skills).",
         ],
       },
-      {
-        type: "p",
-        text: "Use the CV template below as a starting structure, not a straitjacket. The goal is impact-first, not a format to copy blindly.",
-      },
     ],
-    templates: [
-      { label: "CV template", file: "cv-template.md" },
+    resources: [
+      { label: "Influencers I recommend", href: "" },
+      { label: "Download skill", href: "" },
+      { label: "Make a copy of the CV template (Google Docs)", href: "" },
     ],
   },
   {
@@ -150,35 +175,72 @@ export const MODULES: Module[] = [
     title: "Target",
     oneLiner: "Stop wasting time on the wrong opportunities.",
     estimatedMinutes: 10,
-    summary:
+    summary: 
       "Find high-quality roles across the right platforms, run a simple tracker so nothing falls through, and qualify companies the way you'd qualify a lead before you spend real time on them.",
+    videoUrl: "",
     body: [
       {
         type: "p",
-        text: "Applying broadly feels productive. It isn't. Every hour spent on a role you're not actually qualified to win, or a company that isn't actually hiring in good faith, is an hour not spent on one you could win.",
+        text: "Now we've sorted out the first impression, we need to find the right roles. My recommendation (this falls outside the topic of this course) is that you figure out as early as possible what jobs you really want (not just because the title sounds nice or a friend is doing that job) and also the ones that align closest to your skills. This will make you more successful and save you a lot of mistakes down the line. If you don't have it figured out, that's also fine, as a lot of people don't early on.",
       },
-      { type: "h3", text: "Where to actually look" },
-      {
-        type: "p",
-        text: "Job boards are the last channel, not the first. By the time a role is posted publicly, it's already competing you against the widest possible pool. Prioritize company career pages you're targeting directly, warm and second-degree connections, and niche communities in your specific vertical over generic aggregators.",
-      },
-      { type: "h3", text: "Qualify before you apply" },
+      { type: "p", text: "Assuming you've got this covered, we want to find roles that meet all, or at least several, of these criteria:" },
       {
         type: "list",
         items: [
-          "Is the company actually growing, or is this a backfill for a role three people just left?",
-          "Does the comp/level match what you're worth, or are you about to negotiate from behind?",
-          "Do you have any real access into this company (a contact, a warm intro), or are you applying cold into a queue of hundreds?",
+          "Real jobs (not fake postings on LinkedIn posted for legal reasons)",
+          "Recently posted jobs",
+          "Companies relevant to your experience (you have a higher chance of being accepted)",
         ],
       },
       {
         type: "p",
-        text: "Log every role you're seriously considering in the tracker below. It's a simple mini-CRM for your search. Same idea as a pipeline: know where every deal actually stands instead of trusting your memory.",
+        text: "Applying broadly feels productive, but every hour spent on a role you're not actually qualified to win, or a company that isn't actually hiring in good faith, is an hour not spent on one you could win.",
+      },
+      { type: "h3", text: "Qualify before you apply" },
+      { type: "p", text: "These are the questions we want to try and answer:" },
+      {
+        type: "list",
+        items: [
+          "Is the company actually growing, or is this a backfill for the role?",
+          "Does the comp/level match what you're worth, or are you about to negotiate from behind?",
+          "Do you have any real access into this company (a contact, a warm intro), or are you applying cold into a queue of hundreds?",
+          "Do you like the culture of this company?",
+          "How experienced is your future manager?",
+          "How good is their product market fit?",
+          "What do past and current employees say about the company?",
+        ],
+      },
+      { type: "p", text: "Understanding this well will a) make your application more successful and b) get you the job you actually want." },
+      { type: "h3", text: "Where and how to get these answers" },
+      {
+        type: "ol",
+        items: [
+          "Speak with people in the company",
+          "AI",
+          "[RepVue](https://www.repvue.com)",
+          "[Glassdoor](https://www.glassdoor.com)",
+          "[Reddit](https://www.reddit.com)",
+        ],
+      },
+      { type: "h3", text: "Where to actually look" },
+      { type: "p", text: "Each of these channels has pros and cons:" },
+      {
+        type: "ol",
+        items: [
+          "Warm connections",
+          "Second-degree connections",
+          "Career page / in-depth research",
+          "[Otta.com](https://otta.com)",
+          "LinkedIn",
+        ],
+      },
+      { type: "h3", text: "Track every role" },
+      {
+        type: "p",
+        text: "Log every role you're seriously considering in the tracker below. It's a simple mini-CRM for your search. Same idea as a pipeline: know where every deal actually stands instead of trusting your memory, and it can help us identify patterns later on.",
       },
     ],
-    templates: [
-      { label: "Job tracker (spreadsheet)", file: "job-tracker.csv" },
-    ],
+    resources: [{ label: "Make a copy of the job tracker (Google Sheets)", href: "" }],
   },
   {
     slug: "access",
@@ -186,29 +248,64 @@ export const MODULES: Module[] = [
     title: "Access",
     oneLiner: "Reach the people who actually make hiring decisions.",
     estimatedMinutes: 10,
-    summary:
+    summary: 
       "Identify hiring managers and key stakeholders, find their contact details, and learn who's actually worth reaching out to, the same way you'd prospect a real buyer instead of hoping a form gets read.",
+    videoUrl: "",
     body: [
       {
         type: "p",
-        text: "An application into an ATS is a form. A message to the actual hiring manager is access. This module is about closing that gap.",
+        text: "We've now identified the best roles and companies to apply to. We're not taking the traditional \"Easy Apply\" route on LinkedIn, so we need to identify who will actually be interested in receiving our application: hiring managers, recruitment teams and key stakeholders.",
       },
-      { type: "h3", text: "Finding the right person" },
+      {
+        type: "p",
+        text: "The goal is to understand who's worth reaching out to and find a way to get in touch, the same way you'd prospect a real buyer instead of hoping a generic form gets read.",
+      },
+      { type: "h3", text: "How to spot the right person" },
+      { type: "p", text: "There's no silver bullet, it depends on the company. For most, it should take you about 5 minutes." },
+      { type: "p", text: "The easiest way:" },
+      {
+        type: "ol",
+        items: [
+          "Search the company on LinkedIn.",
+          "Filter by keywords tied to your role. For example, for an enterprise EMEA rep position, search \"EMEA\", \"enterprise\" or both together. If the job isn't remote, you can also look for people based in the country the job is in.",
+          "Look for people at manager level, heads of sales or VPs.",
+          "Quickly check their recent LinkedIn posts: one of them may even have posted about the role.",
+        ],
+      },
+      { type: "h3", text: "If that search doesn't work" },
       {
         type: "list",
         items: [
-          "Search LinkedIn for the team you'd be joining. The hiring manager is almost always one or two titles above the role you want, on the same team.",
-          "Use company org charts, recent LinkedIn posts about the team growing, or press releases about the department to confirm who's actually building this team right now.",
-          "A few contact-finding tools (email finders, LinkedIn Sales Navigator) will get you a direct line once you know the name. Worth the small cost for a role you're serious about.",
+          "Big organizations: with lots of employees, the search above can be noisy. Look for company org charts online, or press releases about the department, to confirm who's actually building this team right now.",
+          "Startups and smaller companies: the most relevant person is sometimes the CEO, CSO or COO.",
+          "Ask a current employee: this is actually the best way to know for sure. The tradeoff is that it takes longer to get an answer, so you lose application speed. Always try it, but give it 24 hours and if there's no reply, go with your best guess. It matters most if you've already been rejected several times by the same company, or you're really passionate about the role.",
         ],
+      },
+      { type: "h3", text: "Recruiters" },
+      {
+        type: "p",
+        text: "Another avenue is recruiters. Again, search for \"EMEA recruiter\", \"enterprise talent acquisition\" or whatever aligns closest to your role. Recruiters often post these signals because they want to attract candidates.",
+      },
+      {
+        type: "p",
+        text: "Of course, recruiters aren't as invested as the hiring manager in finding the perfect hire for the team; they care about making quota. They're also further from the problems of the job that we'll reference later to stand out. So ideally: hiring manager first, recruiters second.",
+      },
+      { type: "h3", text: "Getting their contact details" },
+      {
+        type: "p",
+        text: "Once you know the name, a few contact-finding tools (email finders, phone finders, LinkedIn Sales Navigator) will get you a direct line. They're worth the small cost for a role you're serious about, and most have a free version:",
+      },
+      {
+        type: "list",
+        items: ["[Lusha](https://www.lusha.com)", "[Apollo](https://www.apollo.io)", "[Wiza](https://wiza.co)"],
       },
       { type: "h3", text: "Not everyone is worth reaching out to" },
       {
         type: "p",
-        text: "Qualify your contact the same way you'd qualify a lead: someone who just joined the company two weeks ago has no real influence yet. Someone three levels removed from the role can't move you forward. Spend your outreach on the person who actually owns the decision.",
+        text: "Qualify your contact the same way you'd qualify a lead. Someone who joined the company two weeks ago has no real influence yet. Someone three levels removed from the role can't move you forward. Spend your outreach on the person who most likely owns the decision.",
       },
     ],
-    templates: [],
+    resources: [],
   },
   {
     slug: "leverage",
@@ -216,37 +313,85 @@ export const MODULES: Module[] = [
     title: "Leverage",
     oneLiner: "Stand out before the interview even starts.",
     estimatedMinutes: 14,
-    summary:
+    summary: 
       "Build a High Value Product: a short, role-specific business case that shows what you'd actually do in the job, so you walk into the process already holding a proposal instead of a resume.",
+    videoUrl: "",
     body: [
+      { type: "p", text: "By this stage you have:" },
       {
-        type: "callout",
-        text: "This is where most candidates win or lose.",
-      },
-      {
-        type: "p",
-        text: "Everyone else applying is submitting the same thing: a CV and a cover letter nobody reads closely. The single highest-leverage thing you can do is show your ability instead of describing it.",
-      },
-      { type: "h3", text: "The High Value Product (HVP)" },
-      {
-        type: "p",
-        text: "A High Value Product is a short, specific business case built for the exact role and company you're targeting, not a generic writing sample. For a sales role, that might be: a 90-day territory plan, a mock account plan for one of their actual named accounts, or a breakdown of where you'd find their next 10 opportunities and why.",
-      },
-      {
-        type: "list",
+        type: "ol",
         items: [
-          "Make it about their business, not a recap of your resume.",
-          "Keep it short: 1-2 pages or a compact slide, not a dissertation. This proves judgment, not stamina.",
-          "Reference something specific and real about the company (a product launch, a market they just entered, a competitor move) so it's obviously not a template.",
+          "A strong first impression",
+          "The right company and job",
+          "The right person, who cares about this job being filled",
         ],
       },
       {
         type: "p",
-        text: "The template below is a starting structure for your first HVP. Adapt the sections to whatever's actually relevant for the role.",
+        text: "What we need now is to give them a clear, undeniable reason to want you on their team. The big advantage: if you've made it this far in the course, you're already in the top 1% of applicants.",
+      },
+      { type: "callout", text: "This is where you take fate into your own hands and stop relying on an ATS to screen your CV." },
+      { type: "h3", text: "The High Value Product (HVP)" },
+      {
+        type: "p",
+        text: "What we're about to build together is called an HVP, or High Value Product: a crisp, straight-to-the-point, extremely high-quality piece of work, relevant to the job you're applying for. It should have one of three effects on the hiring manager:",
+      },
+      {
+        type: "ol",
+        items: [
+          "Leave them impressed, by the quality of your HVP",
+          "Leave them curious, to get to know the person behind the HVP",
+          "Make them feel understood, by how well you nailed the problem",
+        ],
+      },
+      { type: "h3", text: "Find the problem to solve" },
+      {
+        type: "p",
+        text: "A successful HVP starts with identifying one of the top priorities or challenges the manager and their team are likely facing right now. Put yourself in their shoes, using your research so far and what the job description emphasizes. For example:",
+      },
+      {
+        type: "list",
+        items: [
+          "Does the role require someone who's good at outbound?",
+          "Is the manager a big fan of MEDDICC?",
+          "Is the team struggling with the qualification part of the sales cycle?",
+        ],
+      },
+      {
+        type: "p",
+        text: "Once you've chosen one, think about a short, role-specific business case that shows what you'd actually do to succeed in that area.",
+      },
+      { type: "h3", text: "HVP ideas" },
+      {
+        type: "ol",
+        items: [
+          "A cold email to a top-tier account you've identified, with a breakdown of why it would work",
+          "A 90-day territory plan, as a sales manager, showing how you'd turn around team performance",
+          "A QBR deck showing how you'd run customer meetings with an at-risk account",
+        ],
+      },
+      { type: "h3", text: "What's crucial" },
+      {
+        type: "ol",
+        items: [
+          "Make it about their business, not a recap of your resume.",
+          "Keep it short and relevant to the role.",
+          "Reference something specific and real about the company (a product launch, a market they just entered, a competitor move) so your effort is obvious.",
+        ],
+      },
+      { type: "h3", text: "Doing it at scale" },
+      {
+        type: "p",
+        text: "I'd recommend building your first HVPs manually, to really get the hang of it and make sure the quality is top tier.",
+      },
+      {
+        type: "p",
+        text: "The HVP is the most time-consuming part of this application strategy, so to let you operate at a bigger scale, I've created some templates and bots that speed up the process.",
       },
     ],
-    templates: [
-      { label: "High Value Product template", file: "hvp-template.md" },
+    resources: [
+      { label: "Download the bot", href: "" },
+      { label: "Download the cold email template", href: "" },
     ],
   },
   {
@@ -255,36 +400,79 @@ export const MODULES: Module[] = [
     title: "Execute",
     oneLiner: "Turn everything into consistent results.",
     estimatedMinutes: 10,
-    summary:
+    summary: 
       "Write outreach that actually gets replies, pick the right channels, follow up without being ignored, and run a simple weekly system so none of this depends on motivation.",
+    videoUrl: "",
     body: [
       {
         type: "p",
-        text: "Everything so far only pays off if you run it consistently. This module is the cadence: the part that turns a good system into actual interviews on the calendar.",
+        text: "You've found the right people and produced high-value content. Now you just need to pick the right channel and write a short, sweet message that grabs their attention.",
       },
-      { type: "h3", text: "Outreach that gets replies" },
+      { type: "h3", text: "Pick the right channel" },
+      {
+        type: "p",
+        text: "Think of channels on two axes: how much impact your message has (how unique it is, how much value it brings) and how noisy the medium is (how many messages like it a recruitment manager or CSO already receives). If you want to go deeper, check out this video from Steven Bartlett: [Quit your 9 to 5 job with this 90 day side hustle plan!](https://www.youtube.com/watch?v=ppp3EevzPu4)",
+      },
+      { type: "p", text: "High-noise channels:" },
       {
         type: "list",
         items: [
-          "Same principles as a cold sequence that actually converts: short, specific to them, and leads with something of value, not \"I'd love to learn more about opportunities.\"",
-          "Reference the HVP or something specific from the Access module research in your first message.",
-          "One channel almost never works alone. Pair LinkedIn with email where you can.",
+          "LinkedIn",
+          "Email: works best for me because of the effort-to-timing tradeoff. The key is to write it well (apply the logic of the cold email from Leverage).",
         ],
       },
-      { type: "h3", text: "Follow-up is not optional" },
+      { type: "p", text: "Less noise, more unique:" },
+      {
+        type: "list",
+        items: [
+          "A phone call is already better.",
+          "Even better: a physical letter, events, or a gift (thoughtful, not sucking up).",
+        ],
+      },
+      {
+        type: "callout",
+        text: "Don't be weird: no private addresses, no digging into someone's private life. Maximize for uniqueness and relevance.",
+      },
+      { type: "h3", text: "How to write the message" },
+      { type: "p", text: "The keys:" },
+      {
+        type: "list",
+        items: [
+          "Catch their attention within 7 seconds. The noisier the channel, the more critical this is; the more unique the channel, the more attention the gesture itself earns you.",
+          "Be hyper-relevant: mention the position, location, company, a case study, team-specific info. You want them to file it as important as fast as possible, so the more specific the better.",
+          "Stand out: avoid boilerplate language, pre-made sentences or empty ones.",
+          "Deliver value as a quick win: a 1-page PDF (e.g. the cold email), a 3-minute Loom video, a photo, etc.",
+          "Use a soft call to action: don't sound desperate or cocky, but invite a next step.",
+          "Experiment, vary, dare.",
+          "Collect data: track how often it works and how often it doesn't.",
+        ],
+      },
+      {
+        type: "example",
+        label: "Example outreach",
+        text: "Subject: Enterprise AE role\n\nHi Tim,\n\nI came across the AE role in the Netherlands and spent some time digging into BeyondTrust's customer work, particularly the Investec case study.\n\nRather than over-explain my background, I thought it might be more useful to share a cold email I'd write if I were selling BeyondTrust.\n\nI picked Investec deliberately. Based on the case studies, it felt like a realistic next logo given their scale, growth trajectory, and the environment they operate in.\n\nIf this is helpful context, happy to discuss further.\n\nBest,\nPietro",
+      },
+      { type: "h3", text: "Referrals" },
       {
         type: "p",
-        text: "Treat silence like an objection, not a no. Most replies come after the second or third touch, not the first. Space follow-ups a few days apart and add something new each time: a relevant article, a follow-up thought on the HVP, not just \"just bumping this.\"",
+        text: "Referrals are the key to success if your HVP doesn't land. They're also still useful for gathering information on the company, to build your HVP in the first place or to prepare for interviews.",
       },
-      { type: "h3", text: "The weekly system" },
       {
-        type: "p",
-        text: "Block a fixed weekly time for the search. Treat it like a pipeline review, not an ad hoc task. Update the tracker, send that week's outreach, follow up on anything gone quiet. Small and consistent beats a burst of effort every few weeks.",
+        type: "list",
+        items: [
+          "Add 5 to 10 people on LinkedIn who are in the team or in the same role.",
+          "Look for those who are most active on LinkedIn and have been there at least 6 months.",
+          "The same nationality, school or background helps.",
+          "LinkedIn is the best channel. Keep it short and try multiple people; if they're in the same team, don't message them on the same day.",
+        ],
+      },
+      {
+        type: "example",
+        label: "Example message",
+        text: "Hi Maikel, I just found the open Strategic AE position at Ping Identity and came across your profile. I see you've been working as an Enterprise AE for 9 months.\n\nI have some questions about the role. Would you be available for a short call?",
       },
     ],
-    templates: [
-      { label: "Outreach scripts", file: "outreach-scripts.md" },
-    ],
+    resources: [],
   },
 ];
 
