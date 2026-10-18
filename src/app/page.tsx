@@ -23,7 +23,7 @@ export const dynamic = "force-dynamic";
 
 // Home page, following a plain sales-page structure:
 // Promise → Who it's for → Credibility → Problems → How it works → Offer → FAQ.
-// The shorter earlier version lives at /v1 for comparison.
+// The shorter earlier version lives at /v2 ("Homepage version 2").
 export default async function LandingPage() {
   const supabase = createClient();
   const {
@@ -270,6 +270,22 @@ export default async function LandingPage() {
           <Reveal delay={150}>
             <Faq items={FAQ.slice(0, 4)} />
           </Reveal>
+        </div>
+      </section>
+
+      {/* Temporary: link to the alternative homepage for comparison. Remove before driving traffic. */}
+      <section className="border-t border-line px-5 py-16 sm:px-8">
+        <div className="mx-auto flex max-w-4xl flex-col items-start justify-between gap-6 border border-dashed border-line-strong bg-bg-alt px-8 py-8 sm:flex-row sm:items-center">
+          <div>
+            <h2 className="mb-2 text-[24px] font-bold tracking-tight">Homepage version 2</h2>
+            <p className="text-[16px] text-fg-dim">A shorter take on this page, for comparison.</p>
+          </div>
+          <Link
+            href="/v2"
+            className="flex-shrink-0 border border-line-strong bg-bg px-5 py-3 text-[16px] font-medium text-fg no-underline hover:border-accent"
+          >
+            View version 2 →
+          </Link>
         </div>
       </section>
 

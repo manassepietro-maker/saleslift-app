@@ -18,7 +18,7 @@ export const ROLES = [
   "Customer Success",
 ];
 
-// /v1 (version A) pain list.
+// /v2 (homepage version 2) pain list.
 export const PAIN_POINTS = [
   "You've sent fifty applications and heard back from one.",
   "You're hitting your numbers at work, but your CV gets ignored.",
@@ -163,7 +163,7 @@ export const FAQ = [
   { q: "What happens if I want continued support once I book the interview?", a: "You have the option to book live 1:1 sessions for coaching if you want to master the interview process." },
 ];
 
-// /v1 (version A) shows these three; the home page shows the first four of FAQ.
+// /v2 (homepage version 2) shows these three; the home page shows the first four of FAQ.
 export const FAQ_HOME_A = FAQ.filter((f) =>
   ["How long until I see results?", "Will this work outside SaaS/tech sales?", "What if I'm employed and searching quietly?"].includes(f.q)
 );

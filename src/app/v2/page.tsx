@@ -1,5 +1,4 @@
 import Link from "next/link";
-import type { Metadata } from "next";
 import { BuyButton } from "@/components/BuyButton";
 import { Reveal } from "@/components/landing/Reveal";
 import { LogoStrip } from "@/components/landing/LogoStrip";
@@ -7,16 +6,16 @@ import { PainSection, CallbackChart, StagePath, Faq } from "@/components/landing
 import { SiteHeader, SiteFooter, Eyebrow, Check, BrowserShot } from "@/components/landing/Site";
 import { ROLES, PAIN_POINTS, STAGES, INCLUDED, FAQ_HOME_A, PRICE_LABEL } from "@/lib/content/landing";
 
-// Hidden from search engines so it doesn't compete with the home page.
-export const metadata: Metadata = { robots: { index: false, follow: false } };
 
-// Earlier, shorter landing page (version A), kept at /v1 for comparison:
+// "Homepage version 2": the earlier, shorter landing page, kept at /v2 for
+// comparison and linked from the bottom of the home page. Remove the link and
+// this page before driving real traffic.
 // Hero → Pain → Solution → Product + pricing. Unlike the home page, it doesn't
 // send logged-in visitors to the course, so it can be shown to anyone.
-export default function LandingPageV1() {
+export default function LandingPageV2() {
   return (
     <main className="min-h-screen overflow-x-hidden bg-bg text-fg">
-      <SiteHeader home="/v1" />
+      <SiteHeader home="/v2" />
 
       {/* 1. Hero */}
       <section className="relative">
