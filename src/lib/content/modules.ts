@@ -69,14 +69,17 @@ export const INTRO = {
   estimatedMinutes: 6,
   videoUrl: "", // drop a hosted video URL (Mux/YouTube unlisted/Loom) here
   body: [
+    { type: "h3", text: "The problem" },
     {
       type: "p",
-      text: "The job market has never been harder to navigate. Mass layoffs, AI screening tools that filter you out before a human ever sees your name, and if you're applying for remote roles, you're competing against hundreds of people for one role.",
+      text: "The job market has never been harder to navigate. Mass layoffs, AI screening tools that filter you out before a human ever sees your name, and if you're applying for remote roles, you're competing against thousands of people for one role.",
     },
+    { type: "h3", text: "My story" },
     {
       type: "p",
       text: "Getting an interview has become genuinely hard, even for good sellers. I know because I lived it. After nearly two years building my own startup, I had to call it quits. Despite having AE experience at Gartner, overachieving my targets, and genuinely believing in my abilities, I sent out hundreds of CVs and got two interviews. Two.",
     },
+    { type: "h3", text: "What I realized" },
     {
       type: "p",
       text: "That's when I realized: the system is broken, not me. Recruiters and companies are lazy. They filter you out with ATS tools before a human ever reads your name. Hiring managers bring their own contacts in through the back door. Timing matters: apply on day one and you're competing against thousands of applicants; apply after two weeks and you're one of five.",
@@ -85,10 +88,12 @@ export const INTRO = {
       type: "p",
       text: "Most people lose before they start. They apply, they wait, they get ghosted, they repeat, because they're treating a hiring process like a form to fill out, instead of what it actually is: a sale where you're the product.",
     },
+    { type: "h3", text: "The solution" },
     {
       type: "p",
       text: "So I studied how the system actually filters people, and built a way to work with it instead of hoping to beat it, the same way you'd build a pipeline instead of hoping a cold list converts itself. That's this course.",
     },
+    { type: "h3", text: "The results" },
     {
       type: "callout",
       text: "Running the full system: my application-to-interview conversion rate went from 1% to 50%, my salary conversations increased 3x, and I got interviewed for roles I only felt qualified for, not ones I expected to actually land. Your results will depend on how fully you run the system.",
