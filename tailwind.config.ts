@@ -38,6 +38,7 @@ const config: Config = {
         display: ["Inter", "system-ui", "sans-serif"],
         body: ["Inter", "system-ui", "sans-serif"],
         inter: ["Inter", "system-ui", "sans-serif"],
+        hand: ["Caveat", "cursive"],
       },
     },
   },

@@ -1,4 +1,5 @@
 import type { ContentBlock } from "@/lib/content/modules";
+import { ChannelMap } from "@/components/course/ChannelMap";
 
 // Turns "[label](https://...)" inside lesson text into real links.
 function RichText({ text }: { text: string }) {
@@ -85,6 +86,8 @@ export function ContentBlocks({ blocks }: { blocks: ContentBlock[] }) {
                 <p className="whitespace-pre-line px-6 py-5 text-[17px] leading-[1.65] text-c-body">{block.text}</p>
               </figure>
             );
+          case "diagram":
+            return block.name === "channel-map" ? <ChannelMap key={i} /> : null;
           case "callout":
             return (
               <p

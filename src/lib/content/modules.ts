@@ -18,6 +18,7 @@ export type ContentBlock =
   | { type: "ol"; items: string[] }
   | { type: "callout"; text: string }
   | { type: "example"; label: string; text: string }
+  | { type: "diagram"; name: "channel-map" }
   | { type: "link"; href: string; label: string };
 
 // A downloadable or copyable resource shown as a button at the end of a
@@ -413,6 +414,7 @@ export const MODULES: Module[] = [
         type: "p",
         text: "Think of channels on two axes: how much impact your message has (how unique it is, how much value it brings) and how noisy the medium is (how many messages like it a recruitment manager or CSO already receives). If you want to go deeper, check out this video from Steven Bartlett: [Quit your 9 to 5 job with this 90 day side hustle plan!](https://www.youtube.com/watch?v=ppp3EevzPu4)",
       },
+      { type: "diagram", name: "channel-map" },
       { type: "p", text: "High-noise channels:" },
       {
         type: "list",
@@ -426,7 +428,7 @@ export const MODULES: Module[] = [
         type: "list",
         items: [
           "A phone call is already better.",
-          "Even better: a physical letter, events, or a gift (thoughtful, not sucking up).",
+          "Even better: a physical letter, events, or a small personalized item that's relevant to them and helps you stand out (thoughtful, not sucking up).",
         ],
       },
       {
