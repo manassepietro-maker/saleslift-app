@@ -14,7 +14,7 @@ export default async function WelcomePage() {
       <h1 className="mb-8 text-[34px] font-bold tracking-tight text-c-text sm:text-[42px]">Welcome</h1>
       <ContentBlocks blocks={WELCOME.body} />
       <div className="mt-12">
-        <CoachingCard compact />
+        <CoachingCard variant="compact" />
       </div>
     </LessonShell>
   );

@@ -3,9 +3,11 @@
 import Link from "next/link";
 import { useEffect, useState, useTransition } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { ALL_LESSONS, SECTIONS, TOTAL_LESSONS } from "@/lib/content/course";
+import { useRouter } from "next/navigation";
+import { ALL_LESSONS, SECTIONS, stageProgress } from "@/lib/content/course";
 import { LessonThumb } from "./LessonThumb";
 import { LogoutButton } from "./LogoutButton";
+import { CoachingCard } from "./CoachingCard";
 import { ArrowLeft, ArrowRight, BookmarkIcon, CheckIcon, LockIcon, SidebarIcon } from "./Icons";
 
 // Lesson player layout: top bar, course sidebar, and the lesson itself.
@@ -38,8 +40,8 @@ export function LessonShell({
   const prev = ALL_LESSONS[index - 1];
   const next = ALL_LESSONS[index + 1];
   const isDone = completed.has(slug);
-  const doneCount = ALL_LESSONS.filter((l) => completed.has(l.slug)).length;
-  const pct = Math.round((doneCount / TOTAL_LESSONS) * 100);
+  const progress = stageProgress(completed);
+  const router = useRouter();
 
   useEffect(() => {
     try {
@@ -75,10 +77,17 @@ export function LessonShell({
     setDone(value); // optimistic
     startTransition(async () => {
       const supabase = createClient();
+      // Plain insert, not upsert: the database only allows students to insert
+      // and delete their own progress rows (an upsert also needs update rights).
+      // "Already completed" (duplicate row, code 23505) counts as success.
       const { error } = value
-        ? await supabase.from("lesson_progress").upsert({ user_id: userId, lesson_slug: slug })
+        ? await supabase.from("lesson_progress").insert({ user_id: userId, lesson_slug: slug })
         : await supabase.from("lesson_progress").delete().eq("user_id", userId).eq("lesson_slug", slug);
-      if (error) setDone(!value); // revert on failure
+      if (error && error.code !== "23505") {
+        setDone(!value); // revert on failure
+        return;
+      }
+      router.refresh(); // so other course pages show the new progress straight away
     });
   }
 
@@ -119,13 +128,26 @@ export function LessonShell({
               <ArrowRight />
             </span>
           )}
+          <span className="hidden whitespace-nowrap text-[15px] tabular-nums text-c-dim md:inline">
+            {progress.count}/{progress.total} · {progress.pct}%
+          </span>
           <button
             onClick={toggleComplete}
             disabled={isPending}
-            className={`flex h-10 items-center gap-2 rounded-lg border px-3 text-[15px] sm:px-4 font-medium sm:text-[18px] ${
-              isDone ? "border-c-line text-c-text hover:bg-c-hover" : "border-c-blue bg-c-blue text-[#0b1730] hover:brightness-110"
+            aria-pressed={isDone}
+            className={`flex h-10 items-center gap-2.5 rounded-lg border px-3 text-[15px] font-medium transition-colors sm:px-4 sm:text-[17px] ${
+              isDone
+                ? "border-green/60 bg-green/15 text-green hover:bg-green/25"
+                : "border-c-line text-c-text hover:border-c-dim hover:bg-c-hover"
             }`}
           >
+            <span
+              className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-[5px] border-2 transition-colors ${
+                isDone ? "border-green bg-green text-white" : "border-c-dim"
+              }`}
+            >
+              {isDone && <CheckIcon size={12} />}
+            </span>
             {isDone ? "Completed" : <><span className="sm:hidden">Complete</span><span className="hidden sm:inline">Mark complete</span></>}
           </button>
         </div>
@@ -148,12 +170,12 @@ export function LessonShell({
             <div className="min-w-0 flex-1">
               <div className="mb-3 flex items-center justify-between text-[17px] text-c-body">
                 <span>
-                  {doneCount} of {TOTAL_LESSONS} completed
+                  {progress.count}/{progress.total} stages complete
                 </span>
-                <span>{pct}%</span>
+                <span>{progress.pct}%</span>
               </div>
               <div className="h-[5px] overflow-hidden rounded-full bg-c-track">
-                <div className="h-full rounded-full bg-white transition-all" style={{ width: `${pct}%` }} />
+                <div className="h-full rounded-full bg-white transition-all" style={{ width: `${progress.pct}%` }} />
               </div>
             </div>
           </div>
@@ -206,7 +228,8 @@ export function LessonShell({
               </div>
             ))}
           </nav>
-          <div className="border-t border-c-line px-5 py-4">
+          <div className="flex flex-col gap-3 border-t border-c-line px-5 py-4">
+            <CoachingCard variant="mini" />
             <LogoutButton className="h-11 w-full justify-center text-[16px]" />
           </div>
         </aside>

@@ -41,6 +41,16 @@ export const SECTIONS: Section[] = [
 export const ALL_LESSONS: Lesson[] = SECTIONS.flatMap((s) => s.lessons);
 export const TOTAL_LESSONS = ALL_LESSONS.length;
 
+// Progress is shown as the 5 stages (Start Here doesn't count), e.g. "2/5 · 40%".
+export const STAGE_LESSONS: Lesson[] = SECTIONS[1].lessons;
+
+export function stageProgress(completed: Set<string> | string[]) {
+  const done = completed instanceof Set ? completed : new Set(completed);
+  const count = STAGE_LESSONS.filter((l) => done.has(l.slug)).length;
+  const total = STAGE_LESSONS.length;
+  return { count, total, pct: Math.round((count / total) * 100) };
+}
+
 export function getLesson(slug: string) {
   return ALL_LESSONS.find((l) => l.slug === slug);
 }

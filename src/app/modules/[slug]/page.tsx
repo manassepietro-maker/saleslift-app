@@ -34,12 +34,11 @@ export default async function ModulePage({ params }: { params: { slug: string } 
           <ResourceList resources={mod.resources} />
         </div>
       )}
-      {/* Interviews start landing after Execute: offer coaching there. */}
-      {mod.slug === "execute" && (
-        <div className="mt-12">
-          <CoachingCard compact />
-        </div>
-      )}
+      {/* Coaching offer at the end of every stage; the full version after
+          Execute, when interviews start landing. */}
+      <div className="mt-12">
+        <CoachingCard variant={mod.slug === "execute" ? "full" : "compact"} />
+      </div>
     </LessonShell>
   );
 }

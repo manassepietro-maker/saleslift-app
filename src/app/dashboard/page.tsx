@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getCourseState } from "@/lib/course-state";
-import { ALL_LESSONS, TOTAL_LESSONS } from "@/lib/content/course";
+import { ALL_LESSONS, stageProgress } from "@/lib/content/course";
 import { CourseOutline } from "@/components/course/CourseOutline";
 import { CourseMenu } from "@/components/course/CourseMenu";
 import { LogoutButton } from "@/components/course/LogoutButton";
@@ -12,8 +12,7 @@ export default async function DashboardPage() {
   const { hasAccess, completed } = await getCourseState();
 
   const done = new Set(completed);
-  const doneCount = ALL_LESSONS.filter((l) => done.has(l.slug)).length;
-  const pct = Math.round((doneCount / TOTAL_LESSONS) * 100);
+  const progress = stageProgress(done);
 
   // "Continue" jumps to the first unfinished lesson the student can open.
   const next =
@@ -42,15 +41,19 @@ export default async function DashboardPage() {
             <div className="rounded-3xl border border-c-line bg-c-card px-6 py-9 sm:px-12 sm:py-12">
               <div className="mb-5 flex items-center justify-between text-[19px] sm:text-[23px]">
                 <span>
-                  Completed {doneCount} of {TOTAL_LESSONS} lessons
+                  {progress.count}/{progress.total} stages complete
                 </span>
-                <span>{pct}%</span>
+                <span>{progress.pct}%</span>
               </div>
               <div className="h-2.5 overflow-hidden rounded-full bg-c-track">
-                <div className="h-full rounded-full bg-white transition-all" style={{ width: `${pct}%` }} />
+                <div className="h-full rounded-full bg-white transition-all" style={{ width: `${progress.pct}%` }} />
               </div>
             </div>
           </section>
+
+          <div className="mt-8">
+            <CoachingCard />
+          </div>
 
           {!hasAccess && (
             <div className="mt-8 flex flex-col items-start justify-between gap-4 rounded-3xl border border-c-line bg-c-card px-6 py-7 sm:flex-row sm:items-center sm:px-12">
@@ -70,9 +73,6 @@ export default async function DashboardPage() {
             <CourseOutline completed={completed} hasAccess={hasAccess} />
           </div>
 
-          <div className="mt-16">
-            <CoachingCard />
-          </div>
         </div>
       </div>
     </main>
