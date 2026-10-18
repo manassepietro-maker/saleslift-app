@@ -60,7 +60,7 @@ export default async function LandingPage() {
             <Reveal delay={300}>
               <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
                 <BuyButton label={`Get the course · ${PRICE_LABEL}`} />
-                <p className="text-[15px] text-fg-faint">One payment · lifetime access · about an hour of lessons</p>
+                <p className="text-[15px] text-fg-faint">One payment · lifetime access · about 2 hours of lessons</p>
               </div>
             </Reveal>
             <Reveal delay={450}>
@@ -219,7 +219,7 @@ export default async function LandingPage() {
               </div>
 
               <div>
-                <h3 className="mb-6 text-[13px] font-semibold uppercase tracking-[0.25em] text-fg-faint">4 templates</h3>
+                <h3 className="mb-6 text-[13px] font-semibold uppercase tracking-[0.25em] text-fg-faint">Templates and tools</h3>
                 <div className="grid gap-4 sm:grid-cols-2">
                   {TEMPLATES.map((t, i) => (
                     <Reveal key={t.name} delay={i * 70}>

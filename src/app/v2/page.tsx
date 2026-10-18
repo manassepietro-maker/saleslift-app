@@ -42,7 +42,7 @@ export default function LandingPageV2() {
             <Reveal delay={300}>
               <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
                 <BuyButton label={`Get the course · ${PRICE_LABEL}`} />
-                <p className="text-[15px] text-fg-faint">One payment · lifetime access · about an hour of lessons</p>
+                <p className="text-[15px] text-fg-faint">One payment · lifetime access · about 2 hours of lessons</p>
               </div>
             </Reveal>
             <Reveal delay={450}>

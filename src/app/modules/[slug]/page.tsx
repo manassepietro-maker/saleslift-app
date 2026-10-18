@@ -4,6 +4,7 @@ import { ContentBlocks } from "@/components/ContentBlocks";
 import { ResourceList } from "@/components/ResourceList";
 import { LessonShell } from "@/components/course/LessonShell";
 import { VideoPlayer } from "@/components/course/VideoPlayer";
+import { CoachingCard } from "@/components/course/CoachingCard";
 import { getModule } from "@/lib/content/modules";
 
 export const dynamic = "force-dynamic";
@@ -31,6 +32,12 @@ export default async function ModulePage({ params }: { params: { slug: string } 
       {mod.resources.length > 0 && (
         <div className="mt-12">
           <ResourceList resources={mod.resources} />
+        </div>
+      )}
+      {/* Interviews start landing after Execute: offer coaching there. */}
+      {mod.slug === "execute" && (
+        <div className="mt-12">
+          <CoachingCard compact />
         </div>
       )}
     </LessonShell>

@@ -1,20 +1,13 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { Nav } from "@/components/Nav";
+import { COACHING } from "@/lib/content/coaching";
 
 export const dynamic = "force-dynamic";
 
-// Phase 2 stub: shows the real pricing so the offer is visible, but booking
-// + payment aren't wired up yet (no Stripe checkout, no scheduling). Swap
-// the mailto link below for a real Cal.com/Calendly embed + Stripe checkout
-// when you're ready to build that phase.
-const TIERS = [
-  { name: "Free consult", price: "Free", detail: "20 minutes to see if it's a fit" },
-  { name: "Quick session", price: "€60", detail: "30 minutes" },
-  { name: "Full session", price: "€100", detail: "60 minutes" },
-  { name: "5-pack", price: "€400", detail: "Five sessions, book anytime" },
-];
-
+// 1:1 interview coaching for students. Booking happens on Calendly (link in
+// src/lib/content/coaching.ts); payment for paid sessions is arranged after
+// the free intro call.
 export default async function CoachingPage() {
   const supabase = createClient();
   const {
@@ -26,24 +19,36 @@ export default async function CoachingPage() {
     <main className="min-h-screen bg-bg">
       <Nav />
       <div className="mx-auto max-w-2xl px-6 py-20">
-        <h1 className="mb-3 font-display text-3xl font-bold text-fg">1:1 Coaching</h1>
-        <p className="mb-10 text-fg-dim">
-          Live sessions to help with interview prep once you've booked one, on top of the system.
+        <h1 className="mb-3 text-[40px] font-extrabold tracking-tight text-fg">1:1 interview coaching</h1>
+        <p className="mb-10 text-[18px] leading-relaxed text-fg-dim">
+          Landed an interview? Let&apos;s prepare for it together, one to one.
         </p>
-        <div className="grid grid-cols-2 gap-4">
-          {TIERS.map((t) => (
-            <div key={t.name} className="rounded-xl border border-line bg-bg-alt p-6">
-              <div className="mb-1 font-display text-2xl font-bold text-fg">{t.price}</div>
-              <div className="mb-1 text-sm font-semibold text-fg">{t.name}</div>
-              <div className="text-sm text-fg-faint">{t.detail}</div>
-            </div>
-          ))}
+        <div className="mb-10 grid gap-4 sm:grid-cols-2">
+          <div className="border border-line-strong bg-bg-alt p-7">
+            <div className="mb-1 text-[32px] font-extrabold text-fg">Free</div>
+            <div className="mb-1 text-[16px] font-semibold text-fg">Intro call</div>
+            <div className="text-[15px] text-fg-faint">{COACHING.introMinutes} minutes to see what you need and if we&apos;re a fit</div>
+          </div>
+          <div className="border border-line-strong bg-bg-alt p-7">
+            <div className="mb-1 text-[32px] font-extrabold text-fg">{COACHING.hourlyPrice}</div>
+            <div className="mb-1 text-[16px] font-semibold text-fg">Per hour</div>
+            <div className="text-[15px] text-fg-faint">Interview prep sessions after the intro call</div>
+          </div>
         </div>
-        <div className="mt-10 rounded-xl border border-dashed border-line-strong bg-bg-alt p-6 text-sm text-fg-faint">
-          Booking + payment for coaching isn't wired up yet. That's Phase 2. For now this
-          page shows the offer; replace this box with a real booking link (e.g. Cal.com) and
-          Stripe checkout when you're ready to build that piece.
-        </div>
+        {COACHING.calendlyUrl ? (
+          <a
+            href={COACHING.calendlyUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-block bg-accent px-7 py-4 text-[17px] font-semibold text-white no-underline hover:brightness-110"
+          >
+            Book your free {COACHING.introMinutes}-min call
+          </a>
+        ) : (
+          <p className="border border-dashed border-line-strong bg-bg-alt px-6 py-5 text-[16px] text-fg-faint">
+            Booking opens soon.
+          </p>
+        )}
       </div>
     </main>
   );

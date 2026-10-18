@@ -121,7 +121,7 @@ export const MODULES: Module[] = [
     number: 1,
     title: "Position",
     oneLiner: "Make a strong impression before you even apply.",
-    estimatedMinutes: 11,
+    estimatedMinutes: 20,
     summary: 
       "Optimize your LinkedIn profile, restructure your CV around real impact, and frame your experience to match the roles you actually want, so the first ten seconds someone spends on your application work in your favor.",
     videoUrl: "",
@@ -174,7 +174,7 @@ export const MODULES: Module[] = [
     number: 2,
     title: "Target",
     oneLiner: "Stop wasting time on the wrong opportunities.",
-    estimatedMinutes: 10,
+    estimatedMinutes: 20,
     summary: 
       "Find high-quality roles across the right platforms, run a simple tracker so nothing falls through, and qualify companies the way you'd qualify a lead before you spend real time on them.",
     videoUrl: "",
@@ -247,7 +247,7 @@ export const MODULES: Module[] = [
     number: 3,
     title: "Access",
     oneLiner: "Reach the people who actually make hiring decisions.",
-    estimatedMinutes: 10,
+    estimatedMinutes: 15,
     summary: 
       "Identify hiring managers and key stakeholders, find their contact details, and learn who's actually worth reaching out to, the same way you'd prospect a real buyer instead of hoping a form gets read.",
     videoUrl: "",
@@ -312,7 +312,7 @@ export const MODULES: Module[] = [
     number: 4,
     title: "Leverage",
     oneLiner: "Stand out before the interview even starts.",
-    estimatedMinutes: 14,
+    estimatedMinutes: 45,
     summary: 
       "Build a High Value Product: a short, role-specific business case that shows what you'd actually do in the job, so you walk into the process already holding a proposal instead of a resume.",
     videoUrl: "",
@@ -399,7 +399,7 @@ export const MODULES: Module[] = [
     number: 5,
     title: "Execute",
     oneLiner: "Turn everything into consistent results.",
-    estimatedMinutes: 10,
+    estimatedMinutes: 30,
     summary: 
       "Write outreach that actually gets replies, pick the right channels, follow up without being ignored, and run a simple weekly system so none of this depends on motivation.",
     videoUrl: "",

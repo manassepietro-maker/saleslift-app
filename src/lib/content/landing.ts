@@ -86,23 +86,26 @@ export const MODULE_DELIVERABLES: Record<string, string[]> = {
   position: ["LinkedIn rewrite", "Impact-first CV", "Your story for the role"],
   target: ["Target company list", "Job tracker", "Company qualifier"],
   access: ["Hiring manager map", "Contact-finding toolkit", "Who to skip"],
-  leverage: ["High Value Product", "Role-specific business case"],
-  execute: ["Outreach scripts", "Follow-up cadence", "Weekly routine"],
+  leverage: ["High Value Product", "Cold email template"],
+  execute: ["Outreach examples", "Channel playbook", "Referral messages"],
 };
 
 export const INCLUDED = [
-  "5 modules, about an hour of lessons",
-  "4 ready-to-use templates",
+  "5 modules, about 2 hours of lessons",
+  "3 templates and 2 AI tools",
   "Instant access right after you pay",
   "Lifetime access, including future updates",
 ];
 
-// The full offer breakdown: every template and what it does for you.
+// The full offer breakdown: every template and tool in the course, and what
+// it does for you. Keep these names in sync with the lesson resources in
+// modules.ts (the course is the source of truth).
 export const TEMPLATES = [
   { name: "CV template", text: "An impact-first structure recruiters can scan in seconds." },
   { name: "Job tracker", text: "Every company, contact and follow-up in one simple spreadsheet." },
-  { name: "High Value Product template", text: "A one-page business case you adapt for each role." },
-  { name: "Outreach scripts", text: "First messages and follow-ups that get replies." },
+  { name: "Cold email template", text: "The cold email at the heart of your High Value Product." },
+  { name: "CV skill", text: "An AI tool that helps you tailor your CV to each role." },
+  { name: "HVP bot", text: "An AI tool that speeds up building your High Value Product." },
 ];
 
 // The inbox that's waiting: newest email first, like a real inbox.
@@ -158,7 +161,7 @@ export const FAQ = [
   { q: "How long until I see results?", a: "Most people start getting responses within the first two weeks of running Access and Execute consistently." },
   { q: "Will this work outside SaaS/tech sales?", a: "This methodology is built for SaaS sales but the framework can be scaled to any industry." },
   { q: "What if I'm employed and searching quietly?", a: "The system works discreetly: targeting, access, and outreach are built to be low-visibility if you need them to be." },
-  { q: "How long does the course take?", a: "About an hour of lessons in total, split into five short modules. The real work is applying it, and the templates make that faster." },
+  { q: "How long does the course take?", a: "About 2 hours of lessons in total, split into five modules. The real work is applying it, and the templates make that faster." },
   { q: "I've tried job search courses before and they didn't work.", a: "Most job search content is written for generalists. It doesn't use what you already know how to do. SalesLift is built specifically around sales instincts you already have." },
   { q: "What happens if I want continued support once I book the interview?", a: "You have the option to book live 1:1 sessions for coaching if you want to master the interview process." },
 ];

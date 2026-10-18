@@ -4,6 +4,7 @@ import { ALL_LESSONS, TOTAL_LESSONS } from "@/lib/content/course";
 import { CourseOutline } from "@/components/course/CourseOutline";
 import { CourseMenu } from "@/components/course/CourseMenu";
 import { LogoutButton } from "@/components/course/LogoutButton";
+import { CoachingCard } from "@/components/course/CoachingCard";
 
 export const dynamic = "force-dynamic";
 
@@ -67,6 +68,10 @@ export default async function DashboardPage() {
 
           <div className="mt-16">
             <CourseOutline completed={completed} hasAccess={hasAccess} />
+          </div>
+
+          <div className="mt-16">
+            <CoachingCard />
           </div>
         </div>
       </div>
