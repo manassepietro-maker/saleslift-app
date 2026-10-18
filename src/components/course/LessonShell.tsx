@@ -5,6 +5,7 @@ import { useEffect, useState, useTransition } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { ALL_LESSONS, SECTIONS, TOTAL_LESSONS } from "@/lib/content/course";
 import { LessonThumb } from "./LessonThumb";
+import { LogoutButton } from "./LogoutButton";
 import { ArrowLeft, ArrowRight, BookmarkIcon, CheckIcon, LockIcon, SidebarIcon } from "./Icons";
 
 // Lesson player layout: top bar, course sidebar, and the lesson itself.
@@ -205,6 +206,9 @@ export function LessonShell({
               </div>
             ))}
           </nav>
+          <div className="border-t border-c-line px-5 py-4">
+            <LogoutButton className="h-11 w-full justify-center text-[16px]" />
+          </div>
         </aside>
 
         {/* Lesson */}

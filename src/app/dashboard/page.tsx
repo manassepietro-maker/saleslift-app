@@ -3,6 +3,7 @@ import { getCourseState } from "@/lib/course-state";
 import { ALL_LESSONS, TOTAL_LESSONS } from "@/lib/content/course";
 import { CourseOutline } from "@/components/course/CourseOutline";
 import { CourseMenu } from "@/components/course/CourseMenu";
+import { LogoutButton } from "@/components/course/LogoutButton";
 
 export const dynamic = "force-dynamic";
 
@@ -29,6 +30,7 @@ export default async function DashboardPage() {
             >
               Continue
             </Link>
+            <LogoutButton className="hidden h-[52px] px-5 text-[17px] sm:flex" />
             <CourseMenu hasAccess={hasAccess} />
           </div>
         </header>
