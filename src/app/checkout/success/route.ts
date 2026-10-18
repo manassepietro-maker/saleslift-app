@@ -7,8 +7,8 @@ export const dynamic = "force-dynamic";
 
 // Stripe sends buyers here after paying. We confirm the payment with Stripe,
 // unlock the course (creating the account if they paid before signing up),
-// and log them straight in — once, within an hour of checkout. After that,
-// they log in with an emailed link from /login like everyone else.
+// and log them straight in (once, within an hour of checkout), then ask them
+// to create a password. After that, they log in with email and password.
 export async function GET(req: NextRequest) {
   const origin = req.nextUrl.origin;
   const sessionId = req.nextUrl.searchParams.get("session_id");
@@ -44,7 +44,8 @@ export async function GET(req: NextRequest) {
       const tokenHash = link?.properties?.hashed_token;
       if (tokenHash) {
         const { error } = await supabase.auth.verifyOtp({ token_hash: tokenHash, type: "email" });
-        if (!error) return NextResponse.redirect(`${origin}/dashboard?welcome=1`);
+        // New buyers choose a password next (/set-password skips this if they have one).
+        if (!error) return NextResponse.redirect(`${origin}/set-password`);
         console.error("Auto-login after checkout failed", error);
       }
     }

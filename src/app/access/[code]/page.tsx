@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient, createAdminClient } from "@/lib/supabase/server";
-import { EmailLinkForm } from "@/components/EmailLinkForm";
+import { AuthForm } from "@/components/AuthForm";
 import { Logo } from "@/components/Logo";
 
 export const dynamic = "force-dynamic";
@@ -41,14 +41,14 @@ export default async function AccessPage({ params }: { params: { code: string } 
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Not logged in: sign in by email, then the emailed link brings them back here.
+  // Not logged in: log in or create an account, then come back here.
   if (!user) {
     return (
-      <EmailLinkForm
-        mode="signup"
+      <AuthForm
+        mode="login"
         next={`/access/${encodeURIComponent(code)}`}
         title="Unlock SalesLift"
-        intro="This link gives you full access to the course. Enter your email and we'll send you a login link."
+        intro="This link gives you full access to the course. Log in, or create an account, to unlock it."
       />
     );
   }

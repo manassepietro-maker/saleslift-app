@@ -1,7 +1,7 @@
-import { EmailLinkForm } from "@/components/EmailLinkForm";
+import { AuthForm } from "@/components/AuthForm";
 
 export const dynamic = "force-dynamic";
 
 export default function SignupPage() {
-  return <EmailLinkForm mode="signup" />;
+  return <AuthForm mode="signup" />;
 }
